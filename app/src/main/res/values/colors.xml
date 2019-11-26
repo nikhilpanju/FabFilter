@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#18BDD6</color>
+    <color name="colorPrimaryDark">#0F6088</color>
+    <color name="colorAccent">#FF6284</color>
+    <color name="windowBackground">#51D1E2</color>
+
+    <color name="tab_bg_color">#084A6E</color>
+    <color name="bottom_bar_color">#33779C</color>
+
+    <color name="toolbar_title_color">#5FD5E1</color>
+
+    <color name="title_color">#84D6DE</color>
+    <color name="subtitle_color">#B0E7EF</color>
+
+    <color name="filter_pill_color">#297195</color>
+    <color name="filter_pill_selected_color">@color/windowBackground</color>
+
+    <color name="filter_seek_bar_color">#1C6690</color>
+    <color name="filter_seek_bar_selected_color">#359CBA</color>
+
+    <color name="filter_icon_color">#89AFC2</color>
+    <color name="filter_icon_active_color">@android:color/white</color>
+
+    <color name="list_item_bg_collapsed">#E2FAFF</color>
+    <color name="list_item_bg_expanded">@android:color/white</color>
+    <color name="list_item_fg">#aa7CDDE7</color>
+
+    <color name="tab_unselected_color">#356E8C</color>
+    <color name="tab_selected_color">@android:color/white</color>
+</resources>

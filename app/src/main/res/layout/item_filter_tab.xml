@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/tab_container"
+    android:layout_width="@dimen/tab_item_width"
+    android:layout_height="@dimen/tabs_height"
+    tools:background="@color/tab_bg_color">
+
+    <View
+        android:id="@+id/tab_pill"
+        android:layout_width="match_parent"
+        android:layout_height="16dp"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/ic_pill"
+        android:backgroundTint="@color/tab_unselected_color" />
+
+    <View
+        android:id="@+id/tab_badge"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_alignTop="@id/tab_pill"
+        android:layout_alignEnd="@id/tab_pill"
+        android:layout_marginTop="-6dp"
+        android:layout_marginEnd="-8dp"
+        android:background="@drawable/tab_badge"
+        android:scaleX="0"
+        android:scaleY="0"
+        tools:scaleX="1"
+        tools:scaleY="1" />
+</RelativeLayout>
