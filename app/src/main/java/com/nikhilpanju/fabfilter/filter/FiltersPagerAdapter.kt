@@ -8,7 +8,10 @@ import android.view.animation.DecelerateInterpolator
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.nikhilpanju.fabfilter.R
-import com.nikhilpanju.fabfilter.utils.*
+import com.nikhilpanju.fabfilter.utils.bindColor
+import com.nikhilpanju.fabfilter.utils.bindOptionalViews
+import com.nikhilpanju.fabfilter.utils.blendColors
+import com.nikhilpanju.fabfilter.utils.getValueAnimator
 
 /**
  * ViewPager adapter to display all the filters
@@ -68,7 +71,7 @@ class FiltersPagerAdapter(context: Context, private val listener: (updatedPositi
          * Bind the Seekbars (if any). Sliding the seekbar between 1f..99f toggles it on.
          * 1f and 99f are chosen just to make the toggling seem more smooth
          */
-        holder.seekBars.forEachIndexed { index: Int, seekBar: CustomSeekbar ->
+        holder.seekBars.forEachIndexed { index: Int, seekBar: FilterSeekbar ->
             seekBar.setOnRangeSeekbarChangeListener { minValue, maxValue ->
                 if (!selectedList.contains(index) && !(minValue.toFloat() < 1f && maxValue.toFloat() > 99f)) {
                     selectedList += index
@@ -95,6 +98,6 @@ class FiltersPagerAdapter(context: Context, private val listener: (updatedPositi
         val filterViews: List<ImageView> by bindOptionalViews(R.id.filter_pill_1, R.id.filter_pill_2,
                 R.id.filter_pill_3, R.id.filter_pill_4, R.id.filter_pill_5, R.id.filter_pill_6)
 
-        val seekBars: List<CustomSeekbar> by bindOptionalViews(R.id.rangeSeekbar1, R.id.rangeSeekbar2)
+        val seekBars: List<FilterSeekbar> by bindOptionalViews(R.id.rangeSeekbar1, R.id.rangeSeekbar2)
     }
 }

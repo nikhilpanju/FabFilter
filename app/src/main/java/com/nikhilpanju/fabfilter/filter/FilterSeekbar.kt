@@ -1,11 +1,11 @@
-package com.nikhilpanju.fabfilter.utils
+package com.nikhilpanju.fabfilter.filter
 
 import android.content.Context
 import android.util.AttributeSet
 import com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar
 import com.nikhilpanju.fabfilter.R
 
-class CustomSeekbar @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
+class FilterSeekbar @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
     : CrystalRangeSeekbar(context, attrs, defStyleAttr) {
 
     override fun getThumbWidth(): Float = resources.getDimension(R.dimen.thumb_size)

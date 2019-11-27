@@ -19,7 +19,7 @@
         android:tint="@color/filter_pill_color"
         app:srcCompat="@drawable/ic_pill" />
 
-    <com.nikhilpanju.fabfilter.utils.CustomSeekbar
+    <com.nikhilpanju.fabfilter.filter.FilterSeekbar
         android:id="@+id/rangeSeekbar1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -44,7 +44,7 @@
         android:tint="@color/filter_pill_color"
         app:srcCompat="@drawable/ic_pill" />
 
-    <com.nikhilpanju.fabfilter.utils.CustomSeekbar
+    <com.nikhilpanju.fabfilter.filter.FilterSeekbar
         android:id="@+id/rangeSeekbar2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

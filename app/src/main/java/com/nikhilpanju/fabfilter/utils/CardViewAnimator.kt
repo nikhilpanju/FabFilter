@@ -9,8 +9,28 @@ import com.nikhilpanju.fabfilter.utils.ArcAnimator.ArcUtils
 import com.nikhilpanju.fabfilter.utils.ArcAnimator.Side
 
 /**
- * isArcPath = true will disregard width and height changes
+ * Helper class to animate circular CardViews (width = height = radius * 2)
+ * It's almost the same as CardViewAnimator but only animates size, x, y and elevation
+ */
+class CircleCardViewAnimator(cardView: CardView, startSize: Float, endSize: Float,
+                             startX: Float, startY: Float,
+                             startElevation: Float = -1f, endElevation: Float = -1f,
+                             duration: Long = 300L,
+                             interpolator: TimeInterpolator = AccelerateDecelerateInterpolator())
+    : CardViewAnimator(
+        cardView, startSize, endSize, startSize, endSize,
+        startX = startX, startY = startY,
+        endX = startX + (startSize - endSize) / 2, endY = startY + (startSize - endSize) / 2,
+        startRadius = startSize / 2, endRadius = endSize / 2,
+        startElevation = startElevation, endElevation = endElevation,
+        duration = duration, interpolator = interpolator
+)
+
+/**
+ * Helper class to animate CardView Properties.
  * startValues are automatically detected. Make sure you instantiate this after layout or supply start values
+ *
+ * isArcPath = true will disregard width and height changes
  */
 open class CardViewAnimator(
         private val cardView: CardView,
@@ -73,17 +93,3 @@ open class CardViewAnimator(
             start + (end - start) * progress
 
 }
-
-class CircleCardViewAnimator(cardView: CardView, startSize: Float, endSize: Float,
-                             startX: Float, startY: Float,
-                             startElevation: Float = -1f, endElevation: Float = -1f,
-                             duration: Long = 300L,
-                             interpolator: TimeInterpolator = AccelerateDecelerateInterpolator())
-    : CardViewAnimator(
-        cardView, startSize, endSize, startSize, endSize,
-        startX = startX, startY = startY,
-        endX = startX + (startSize - endSize) / 2, endY = startY + (startSize - endSize) / 2,
-        startRadius = startSize / 2, endRadius = endSize / 2,
-        startElevation = startElevation, endElevation = endElevation,
-        duration = duration, interpolator = interpolator
-)
