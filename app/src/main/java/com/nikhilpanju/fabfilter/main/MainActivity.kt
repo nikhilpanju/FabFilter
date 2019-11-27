@@ -62,7 +62,7 @@ class MainActivity : AppCompatActivity() {
         mainListAdapter = MainListAdapter(this)
         recyclerView.adapter = mainListAdapter
         recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.itemAnimator?.removeDuration = FiltersFragment.closeIconRotationDuration
+        recyclerView.itemAnimator?.removeDuration = FiltersFragment.closeIconRotationDuration * 60 / 100
         recyclerView.itemAnimator?.addDuration = FiltersFragment.closeIconRotationDuration
 
         // Nav Drawer Init

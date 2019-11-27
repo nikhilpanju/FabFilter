@@ -438,6 +438,7 @@ class FiltersFragment : Fragment() {
             viewPager.adapter = null
             tabsRecyclerView.adapter = null
             hasActiveFilters = false
+            totalTabsScroll = 0
         }
     }
 
