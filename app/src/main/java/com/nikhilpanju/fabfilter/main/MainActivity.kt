@@ -4,18 +4,18 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.view.Gravity
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.crystal.crystalrangeseekbar.widgets.CrystalSeekbar
 import com.google.android.material.appbar.AppBarLayout
 import com.nikhilpanju.fabfilter.R
-import com.nikhilpanju.fabfilter.filter.FiltersFragment
+import com.nikhilpanju.fabfilter.filter.FiltersLayout
 import com.nikhilpanju.fabfilter.utils.bindView
 
 
@@ -62,22 +62,17 @@ class MainActivity : AppCompatActivity() {
         mainListAdapter = MainListAdapter(this)
         recyclerView.adapter = mainListAdapter
         recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.itemAnimator?.removeDuration = FiltersFragment.closeIconRotationDuration * 60 / 100
-        recyclerView.itemAnimator?.addDuration = FiltersFragment.closeIconRotationDuration
+        recyclerView.itemAnimator?.removeDuration = FiltersLayout.closeIconRotationDuration * 60 / 100
+        recyclerView.itemAnimator?.addDuration = FiltersLayout.closeIconRotationDuration
 
         // Nav Drawer Init
         animationSpeedSeekbar.setOnSeekbarChangeListener { value ->
             animationPlaybackSpeed = value as Double
             animationSpeedText.text = "${"%.1f".format(animationPlaybackSpeed)}x"
         }
-        drawerIcon.setOnClickListener { drawerLayout.openDrawer(Gravity.LEFT) }
+        drawerIcon.setOnClickListener { drawerLayout.openDrawer(GravityCompat.START) }
         githubCodeLink.setOnClickListener { openBrowser(R.string.github_link_code) }
         githubMeLink.setOnClickListener { openBrowser(R.string.github_link_me) }
-
-        // Show FiltersFragment
-        supportFragmentManager.beginTransaction()
-                .add(R.id.coordinator_layout, FiltersFragment(), "FiltersFragment")
-                .commit()
     }
 
     /**

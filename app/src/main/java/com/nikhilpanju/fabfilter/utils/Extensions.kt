@@ -10,7 +10,6 @@ import android.util.TypedValue
 import android.view.View
 import android.view.ViewTreeObserver
 import android.view.WindowManager
-import androidx.fragment.app.Fragment
 
 inline fun getValueAnimator(forward: Boolean = true, duration: Long, interpolator: TimeInterpolator,
                             crossinline updateListener: (progress: Float) -> Unit): ValueAnimator {
@@ -42,7 +41,7 @@ inline val Float.dp: Float
 
 inline val Context.screenWidth: Int
     get() = Point().also { (getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay.getSize(it) }.x
-inline val Fragment.screenWidth: Int
+inline val View.screenWidth: Int
     get() = context!!.screenWidth
 
 

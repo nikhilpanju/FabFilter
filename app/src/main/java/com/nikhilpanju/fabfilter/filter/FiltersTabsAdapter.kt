@@ -18,13 +18,13 @@ class FiltersTabsAdapter(context: Context, private val listener: (Int) -> Unit) 
     private val payloadUpdateBadge = "UPDATE_BADGE"
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
-    private var hasFilters = MutableList(FiltersFragment.numTabs) { false }
+    private var hasFilters = MutableList(FiltersLayout.numTabs) { false }
 
     ///////////////////////////////////////////////////////////////////////////
     // Methods
     ///////////////////////////////////////////////////////////////////////////
 
-    override fun getItemCount(): Int = FiltersFragment.numTabs
+    override fun getItemCount(): Int = FiltersLayout.numTabs
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FiltersTabsViewHolder =
             FiltersTabsViewHolder(inflater.inflate(R.layout.item_filter_tab, parent, false))
@@ -51,7 +51,7 @@ class FiltersTabsAdapter(context: Context, private val listener: (Int) -> Unit) 
         holder.badge.animate()
                 .scaleX(if (badgeShown) 1f else 0f)
                 .scaleY(if (badgeShown) 1f else 0f)
-                .setDuration(FiltersFragment.toggleDuration)
+                .setDuration(FiltersLayout.toggleDuration)
                 .setInterpolator(timeInterpolator)
                 .start()
 

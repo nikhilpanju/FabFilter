@@ -4,12 +4,12 @@ import android.animation.AnimatorSet
 import android.animation.TimeInterpolator
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.res.ColorStateList
-import android.os.Bundle
-import android.view.LayoutInflater
+import android.util.AttributeSet
 import android.view.View
-import android.view.ViewGroup
 import android.view.animation.*
+import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.cardview.widget.CardView
 import androidx.core.animation.doOnEnd
@@ -17,15 +17,17 @@ import androidx.core.animation.doOnStart
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.nikhilpanju.fabfilter.R
-import com.nikhilpanju.fabfilter.main.animationPlaybackSpeed
 import com.nikhilpanju.fabfilter.main.MainActivity
+import com.nikhilpanju.fabfilter.main.animationPlaybackSpeed
 import com.nikhilpanju.fabfilter.utils.*
 
-class FiltersFragment : Fragment() {
+@Suppress("USELESS_CAST")
+@SuppressLint("WrongConstant")
+class FiltersLayout @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
+    : FrameLayout(context, attrs, defStyleAttr) {
 
     ///////////////////////////////////////////////////////////////////////////
     // Views
@@ -84,12 +86,8 @@ class FiltersFragment : Fragment() {
     // Methods
     ///////////////////////////////////////////////////////////////////////////
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
-            inflater.inflate(R.layout.fragment_filter, container, false)
-
-    @SuppressLint("WrongConstant")
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    init {
+        inflate(context, R.layout.layout_filter, this)
 
         mainContainer.doOnGlobalLayout {
             fab.x = fabX
@@ -103,7 +101,7 @@ class FiltersFragment : Fragment() {
         closeIcon.setOnClickListener { openFilterSheet(false) }
         filterIcon.setOnClickListener { onFilterApplied() }
         fab.setOnClickListener {
-            if ((activity as MainActivity).isAdapterFiltered) {
+            if ((context as MainActivity).isAdapterFiltered) {
                 unFilterAdapterWithFabAnimation()
             } else {
                 // We're opening the fab so set the adapters and open filter sheet
@@ -115,7 +113,7 @@ class FiltersFragment : Fragment() {
         // ViewPager & Tabs
         viewPager.offscreenPageLimit = numTabs
         tabsRecyclerView.updatePadding(right = (screenWidth - tabItemWidth - filterLayoutPadding).toInt())
-        tabsRecyclerView.layoutManager = NoScrollHorizontalLayoutManager(context!!)
+        tabsRecyclerView.layoutManager = NoScrollHorizontalLayoutManager(context)
 
         // Sync Tabs And Pager
         tabsRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -327,7 +325,7 @@ class FiltersFragment : Fragment() {
             fabCloseIcon.isVisible = true
             fabCloseIcon.alpha = 1f
             mainContainer.isInvisible = true
-            (activity as MainActivity).isAdapterFiltered = true
+            (context as MainActivity).isAdapterFiltered = true
         }
 
         // 5) Path Animator to animate path of fab back to original position
@@ -373,7 +371,7 @@ class FiltersFragment : Fragment() {
         // 2) Close Icon Animator - Rotates cross icon to simulate loading
         val closeIconLoadingAnimator = getCloseIconAnimator()
         // Also filter adapter items when animation starts
-        closeIconLoadingAnimator.doOnStart { (activity as MainActivity).isAdapterFiltered = false }
+        closeIconLoadingAnimator.doOnStart { (context as MainActivity).isAdapterFiltered = false }
 
         // 3) Outset Animator - Pops the fab back out and hides the cross to simulate a reset-ed state
         val outsetAnimator = insetProp.getAnimator(false) { progress ->
@@ -406,7 +404,7 @@ class FiltersFragment : Fragment() {
                 startElevation = fabElevation, endElevation = fabElevation2, isArcPath = true,
                 duration = pathAnimDuration, interpolator = getPathAnimationInterpolator(open)
         ).getAnimator(open)
-        a.doOnStart { (activity as MainActivity).animateMainListAdapter(open) }
+        a.doOnStart { (context as MainActivity).animateMainListAdapter(open) }
         return a
     }
 
@@ -453,7 +451,6 @@ class FiltersFragment : Fragment() {
 
         const val numTabs = 5
 
-        @Suppress("USELESS_CAST")
         fun getPathAnimationInterpolator(open: Boolean) =
                 (if (open) DecelerateInterpolator() as TimeInterpolator else AccelerateInterpolator())
     }

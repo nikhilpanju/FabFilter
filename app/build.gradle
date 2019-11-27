@@ -28,6 +28,10 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
+    lintOptions {
+        disable 'ContentDescription'
+    }
 }
 
 repositories {
@@ -68,12 +72,12 @@ dependencies {
     })
 
     // Google/AndroidX Libraries
-    implementation 'com.google.android.material:material:1.2.0-alpha01'
+    implementation 'com.google.android.material:material:1.2.0-alpha02'
     implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.recyclerview:recyclerview:1.1.0-rc01'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'androidx.cardview:cardview:1.0.0'
-    implementation 'androidx.core:core-ktx:1.2.0-beta02'
-    implementation "androidx.viewpager2:viewpager2:1.0.0-rc01"
+    implementation 'androidx.core:core-ktx:1.2.0-rc01'
+    implementation "androidx.viewpager2:viewpager2:1.0.0"
 //    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta3'
 

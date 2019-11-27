@@ -28,7 +28,7 @@ class FiltersPagerAdapter(context: Context, private val listener: (updatedPositi
     // Methods
     ///////////////////////////////////////////////////////////////////////////
 
-    override fun getItemCount(): Int = FiltersFragment.numTabs
+    override fun getItemCount(): Int = FiltersLayout.numTabs
 
     override fun getItemViewType(position: Int): Int = when {
         position == 2 -> R.layout.filter_layout_3
@@ -54,7 +54,7 @@ class FiltersPagerAdapter(context: Context, private val listener: (updatedPositi
                 else selectedList += index
 
                 val toggleAnimator = getValueAnimator(!isToggled,
-                        FiltersFragment.toggleDuration, DecelerateInterpolator()) { progress ->
+                        FiltersLayout.toggleDuration, DecelerateInterpolator()) { progress ->
 
                     filterView.setColorFilter(blendColors(unselectedColor, selectedColor, progress))
                 }

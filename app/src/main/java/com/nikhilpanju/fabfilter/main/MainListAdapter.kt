@@ -9,7 +9,7 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.nikhilpanju.fabfilter.R
-import com.nikhilpanju.fabfilter.filter.FiltersFragment
+import com.nikhilpanju.fabfilter.filter.FiltersLayout
 import com.nikhilpanju.fabfilter.utils.*
 import java.util.*
 
@@ -167,8 +167,8 @@ class MainListAdapter(context: Context) : RecyclerView.Adapter<MainListAdapter.L
                 else ValueAnimator.ofFloat(1f, 0f)
 
         shrinkAnimator.addUpdateListener { shrinkItems(holder, position, it.animatedValue as Float) }
-        shrinkAnimator.duration = FiltersFragment.pathAnimDuration
-        shrinkAnimator.interpolator = FiltersFragment.getPathAnimationInterpolator(payload == shrinkAnimation)
+        shrinkAnimator.duration = FiltersLayout.pathAnimDuration
+        shrinkAnimator.interpolator = FiltersLayout.getPathAnimationInterpolator(payload == shrinkAnimation)
         shrinkAnimator.start()
     }
 
