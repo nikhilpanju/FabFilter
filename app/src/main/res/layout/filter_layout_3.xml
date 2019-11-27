@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,7 +10,6 @@
     android:padding="@dimen/filter_layout_padding"
     tools:background="@color/colorPrimaryDark"
     tools:layout_height="@dimen/sheet_peek_height">
-
 
     <ImageView
         android:id="@+id/filter_pill_1"

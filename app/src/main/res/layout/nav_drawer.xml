@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge>
+
+    <com.google.android.material.navigation.NavigationView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        android:visibility="visible"
+        tools:layout_gravity=""
+        tools:visibility="visible">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorPrimaryDark"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="56dp"
+                android:fontFamily="@font/annie_use_your_telescope"
+                android:includeFontPadding="false"
+                android:text="@string/app_name"
+                android:textColor="@color/windowBackground"
+                android:textSize="72sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="24dp"
+                android:layout_marginTop="56dp"
+                android:fontFamily="@font/annie_use_your_telescope"
+                android:includeFontPadding="false"
+                android:text="Animation Speed:"
+                android:textColor="#FFF"
+                android:textSize="28sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="16dp"
+                android:background="@color/colorPrimaryDark"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/animation_speed_text"
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="24dp"
+                    android:fontFamily="@font/annie_use_your_telescope"
+                    android:gravity="center"
+                    android:includeFontPadding="false"
+                    android:text="0.1x"
+                    android:textColor="@color/windowBackground"
+                    android:textSize="20sp" />
+
+
+                <com.crystal.crystalrangeseekbar.widgets.CrystalSeekbar
+                    xmlns:sb="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/animation_speed_seekbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="24dp"
+                    sb:bar_color="@color/filter_seek_bar_color"
+                    sb:bar_highlight_color="@color/filter_seek_bar_selected_color"
+                    sb:corner_radius="10"
+                    sb:data_type="_double"
+                    sb:left_thumb_color="@color/filter_pill_selected_color"
+                    sb:left_thumb_color_pressed="@color/filter_pill_selected_color"
+                    sb:max_value="1.0"
+                    sb:min_start_value="0.8"
+                    sb:min_value="0.1"
+                    sb:steps="0.1" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="24dp"
+                android:layout_marginTop="48dp"
+                android:fontFamily="@font/annie_use_your_telescope"
+                android:includeFontPadding="false"
+                android:text="View code:"
+                android:textColor="@android:color/white"
+                android:textSize="28sp" />
+
+            <TextView
+                android:id="@+id/github_code_link"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="24dp"
+                android:layout_marginTop="-8dp"
+                android:fontFamily="@font/annie_use_your_telescope"
+                android:includeFontPadding="false"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:text="Github"
+                android:textColor="@color/colorAccent"
+                android:textSize="24sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="24dp"
+                android:layout_marginTop="48dp"
+                android:fontFamily="@font/annie_use_your_telescope"
+                android:includeFontPadding="false"
+                android:text="Follow me:"
+                android:textColor="@android:color/white"
+                android:textSize="28sp" />
+
+            <TextView
+                android:id="@+id/github_me_link"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="24dp"
+                android:layout_marginTop="-8dp"
+                android:fontFamily="@font/annie_use_your_telescope"
+                android:includeFontPadding="false"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:text="Nikhil Panju (Github)"
+                android:textColor="@color/colorAccent"
+                android:textSize="24sp" />
+        </LinearLayout>
+    </com.google.android.material.navigation.NavigationView>
+</merge>

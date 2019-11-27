@@ -33,9 +33,9 @@ class MainListAdapter(context: Context) : RecyclerView.Adapter<MainListAdapter.L
     private var originalHeight = -1
     private var expandedHeight = -1
 
+    private val listItemExpandDuration: Long get() = (300L / animationPlaybackSpeed).toLong()
     private val inflater: LayoutInflater = LayoutInflater.from(context)
     private lateinit var recyclerView: RecyclerView
-    private val listItemExpandDuration: Long = (300L / DURATION_SCALE).toLong()
 
     var isFiltered = false
         set(value) {
@@ -153,8 +153,7 @@ class MainListAdapter(context: Context) : RecyclerView.Adapter<MainListAdapter.L
 
     fun animateItems(shrink: Boolean) {
         isShrunk = shrink
-        notifyItemRangeChanged(0, itemCount,
-                if (shrink) shrinkAnimation else unShrinkAnimation)
+        notifyItemRangeChanged(0, itemCount, if (shrink) shrinkAnimation else unShrinkAnimation)
     }
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int, payloads: MutableList<Any>) {

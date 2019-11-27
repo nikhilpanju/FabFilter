@@ -21,6 +21,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.nikhilpanju.fabfilter.R
+import com.nikhilpanju.fabfilter.main.animationPlaybackSpeed
 import com.nikhilpanju.fabfilter.main.MainActivity
 import com.nikhilpanju.fabfilter.utils.*
 
@@ -366,7 +367,7 @@ class FiltersFragment : Fragment() {
 
         // 1) Inset Animator - Closes the fab into the cross
         val insetAnimator = insetProp.getAnimator(true)
-        insetAnimator.duration = 150L
+        insetAnimator.duration = fabInsetDuration
         insetAnimator.interpolator = AccelerateInterpolator()
 
         // 2) Close Icon Animator - Rotates cross icon to simulate loading
@@ -378,7 +379,7 @@ class FiltersFragment : Fragment() {
         val outsetAnimator = insetProp.getAnimator(false) { progress ->
             fabCloseIcon.alpha = progress * 2 - 1
         }
-        outsetAnimator.duration = 300L
+        outsetAnimator.duration = fabInsetDuration
         outsetAnimator.interpolator = OvershootInterpolator()
 
         // Play all 3 sequentially using AnimatorSet
@@ -441,12 +442,13 @@ class FiltersFragment : Fragment() {
     }
 
     companion object {
-        const val pathAnimDuration: Long = (300L / DURATION_SCALE).toLong()
-        const val revealAnimationDuration: Long = (300L / DURATION_SCALE).toLong()
-        const val closeIconRotationDuration: Long = (600L / DURATION_SCALE).toLong()
-        const val fragmentOpenAnimDuration: Long = (200L / DURATION_SCALE).toLong()
-        const val filterAnimDuration: Long = (350L / DURATION_SCALE).toLong()
-        const val toggleDuration: Long = 100L
+        val pathAnimDuration: Long get() = (300L / animationPlaybackSpeed).toLong()
+        val revealAnimationDuration: Long get() = (300L / animationPlaybackSpeed).toLong()
+        val closeIconRotationDuration: Long get() = (600L / animationPlaybackSpeed).toLong()
+        val fragmentOpenAnimDuration: Long get() = (200L / animationPlaybackSpeed).toLong()
+        val filterAnimDuration: Long get() = (350L / animationPlaybackSpeed).toLong()
+        val fabInsetDuration: Long get() = (250L / animationPlaybackSpeed).toLong()
+        val toggleDuration: Long get() = 100L
 
         const val numTabs = 5
 

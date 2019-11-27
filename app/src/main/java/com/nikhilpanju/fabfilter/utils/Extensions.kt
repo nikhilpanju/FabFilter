@@ -12,8 +12,6 @@ import android.view.ViewTreeObserver
 import android.view.WindowManager
 import androidx.fragment.app.Fragment
 
-const val DURATION_SCALE: Float = 1f
-
 inline fun getValueAnimator(forward: Boolean = true, duration: Long, interpolator: TimeInterpolator,
                             crossinline updateListener: (progress: Float) -> Unit): ValueAnimator {
     val a =
