@@ -8,7 +8,7 @@ import com.nikhilpanju.fabfilter.R
 
 /**
  * This behavior animates the toolbar elements (toolbarTitle and drawerIcon) as
- * the recyclerView in MainAcitivity scrolls
+ * the recyclerView in MainActivity scrolls
  */
 class ToolbarBehavior : CoordinatorLayout.Behavior<AppBarLayout>() {
     private lateinit var toolbar: View

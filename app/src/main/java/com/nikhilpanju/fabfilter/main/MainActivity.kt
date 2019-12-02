@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mainListAdapter: MainListAdapter
 
     /**
-     * Used by FiltersFragment since we don't want to expose mainListAdapter (why?)
+     * Used by FiltersLayout since we don't want to expose mainListAdapter (why?)
      * (Option: Combine everything into one activity if & when necessary)
      */
     var isAdapterFiltered: Boolean
@@ -76,7 +76,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     /**
-     * Called from FiltersFragment when performing animation to simultaneously animate the adapter
+     * Called from FiltersLayout when performing animation to simultaneously animate the adapter
      */
     fun animateMainListAdapter(open: Boolean) {
         mainListAdapter.animateItems(open)

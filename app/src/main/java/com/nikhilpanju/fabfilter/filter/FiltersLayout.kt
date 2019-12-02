@@ -223,7 +223,7 @@ class FiltersLayout @JvmOverloads constructor(context: Context, attrs: Attribute
         // Since mainContainer sits on top of the fab, we can fade in all the elements of mainContainer
         // and the bottom bar
 
-        val settleAnimator = getValueAnimator(open, fragmentOpenAnimDuration,
+        val settleAnimator = getValueAnimator(open, settleAnimDuration,
                 if (open) DecelerateInterpolator() as TimeInterpolator else AccelerateInterpolator()) { progress ->
 
             // 3a) Bottom bar bg is faded in for it to stand out
@@ -443,8 +443,8 @@ class FiltersLayout @JvmOverloads constructor(context: Context, attrs: Attribute
     companion object {
         val pathAnimDuration: Long get() = (300L / animationPlaybackSpeed).toLong()
         val revealAnimationDuration: Long get() = (300L / animationPlaybackSpeed).toLong()
+        val settleAnimDuration: Long get() = (300L / animationPlaybackSpeed).toLong()
         val closeIconRotationDuration: Long get() = (600L / animationPlaybackSpeed).toLong()
-        val fragmentOpenAnimDuration: Long get() = (200L / animationPlaybackSpeed).toLong()
         val filterAnimDuration: Long get() = (350L / animationPlaybackSpeed).toLong()
         val fabInsetDuration: Long get() = (250L / animationPlaybackSpeed).toLong()
         val toggleDuration: Long get() = 100L
