@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.OvershootInterpolator
-import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.nikhilpanju.fabfilter.R
 import com.nikhilpanju.fabfilter.utils.bindView
@@ -44,7 +43,9 @@ class FiltersTabsAdapter(context: Context, private val listener: (Int) -> Unit) 
                 ?: return super.onBindViewHolder(holder, position, payloads)
 
         val badgeShown = hasFilters[position]
-        @Suppress("USELESS_CAST") val timeInterpolator =
+
+        @Suppress("USELESS_CAST")
+        val timeInterpolator =
                 if (badgeShown) OvershootInterpolator(3f) as TimeInterpolator
                 else AccelerateInterpolator()
 
@@ -64,8 +65,6 @@ class FiltersTabsAdapter(context: Context, private val listener: (Int) -> Unit) 
     }
 
     class FiltersTabsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val tabItem: View by bindView(R.id.tab_container)
-        val tabPill: ImageView by bindView(R.id.tab_pill)
         val badge: View by bindView(R.id.tab_badge)
     }
 

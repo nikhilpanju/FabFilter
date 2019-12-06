@@ -12,12 +12,12 @@ import com.nikhilpanju.fabfilter.utils.ArcAnimator.Side
  * Helper class to animate circular CardViews (width = height = radius * 2)
  * It's almost the same as CardViewAnimator but only animates size, x, y and elevation
  */
-class CircleCardViewAnimator(cardView: CardView, startSize: Float, endSize: Float,
-                             startX: Float, startY: Float,
-                             startElevation: Float = -1f, endElevation: Float = -1f,
-                             duration: Long = 300L,
-                             interpolator: TimeInterpolator = AccelerateDecelerateInterpolator())
-    : CardViewAnimator(
+class CircleCardViewAnimatorHelper(cardView: CardView, startSize: Float, endSize: Float,
+                                   startX: Float, startY: Float,
+                                   startElevation: Float = -1f, endElevation: Float = -1f,
+                                   duration: Long = 300L,
+                                   interpolator: TimeInterpolator = AccelerateDecelerateInterpolator())
+    : CardViewAnimatorHelper(
         cardView, startSize, endSize, startSize, endSize,
         startX = startX, startY = startY,
         endX = startX + (startSize - endSize) / 2, endY = startY + (startSize - endSize) / 2,
@@ -28,11 +28,12 @@ class CircleCardViewAnimator(cardView: CardView, startSize: Float, endSize: Floa
 
 /**
  * Helper class to animate CardView Properties.
- * startValues are automatically detected. Make sure you instantiate this after layout or supply start values
+ * startValues are automatically detected. Make sure you instantiate this after
+ * view layout or supply start values
  *
  * isArcPath = true will disregard width and height changes
  */
-open class CardViewAnimator(
+open class CardViewAnimatorHelper(
         private val cardView: CardView,
         private val startWidth: Float = cardView.width.toFloat(),
         private val endWidth: Float = -1f,
@@ -71,8 +72,6 @@ open class CardViewAnimator(
             }
             if (endRadius >= 0) cardView.radius = getProgressValue(startRadius, endRadius, progress)
             if (endElevation >= 0) cardView.cardElevation = getProgressValue(startElevation, endElevation, progress)
-
-//            cardView.requestLayout()
         }
 
     fun getAnimator(forward: Boolean = true, updateListener: ((progress: Float) -> Unit)? = null): ValueAnimator {

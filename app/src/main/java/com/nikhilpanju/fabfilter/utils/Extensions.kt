@@ -8,11 +8,14 @@ import android.graphics.Color
 import android.graphics.Point
 import android.util.TypedValue
 import android.view.View
-import android.view.ViewTreeObserver
 import android.view.WindowManager
 
-inline fun getValueAnimator(forward: Boolean = true, duration: Long, interpolator: TimeInterpolator,
-                            crossinline updateListener: (progress: Float) -> Unit): ValueAnimator {
+inline fun getValueAnimator(
+        forward: Boolean = true,
+        duration: Long,
+        interpolator: TimeInterpolator,
+        crossinline updateListener: (progress: Float) -> Unit
+): ValueAnimator {
     val a =
             if (forward) ValueAnimator.ofFloat(0f, 1f)
             else ValueAnimator.ofFloat(1f, 0f)
@@ -44,22 +47,7 @@ inline val Context.screenWidth: Int
 inline val View.screenWidth: Int
     get() = context!!.screenWidth
 
-
-inline fun <T : View> T.doOnGlobalLayout(crossinline action: (T) -> Unit) {
-    viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
-        override fun onGlobalLayout() {
-            viewTreeObserver.removeOnGlobalLayoutListener(this)
-            action(this@doOnGlobalLayout)
-        }
-    })
-}
-
 fun View.setScale(scale: Float) {
     this.scaleX = scale
     this.scaleY = scale
-}
-
-fun View.setPivotToCenter() {
-    pivotX = layoutParams.width.toFloat() / 2
-    pivotY = layoutParams.height.toFloat() / 2
 }

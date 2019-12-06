@@ -1,5 +1,6 @@
 package com.nikhilpanju.fabfilter.main
 
+import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
@@ -62,27 +63,32 @@ class MainActivity : AppCompatActivity() {
         mainListAdapter = MainListAdapter(this)
         recyclerView.adapter = mainListAdapter
         recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.itemAnimator?.removeDuration = FiltersLayout.closeIconRotationDuration * 60 / 100
-        recyclerView.itemAnimator?.addDuration = FiltersLayout.closeIconRotationDuration
+        recyclerView.setHasFixedSize(true)
+        updateRecyclerViewAnimDuration()
 
         // Nav Drawer Init
         animationSpeedSeekbar.setOnSeekbarChangeListener { value ->
             animationPlaybackSpeed = value as Double
             animationSpeedText.text = "${"%.1f".format(animationPlaybackSpeed)}x"
+            updateRecyclerViewAnimDuration()
         }
         drawerIcon.setOnClickListener { drawerLayout.openDrawer(GravityCompat.START) }
         githubCodeLink.setOnClickListener { openBrowser(R.string.github_link_code) }
         githubMeLink.setOnClickListener { openBrowser(R.string.github_link_me) }
     }
 
-    /**
-     * Called from FiltersLayout when performing animation to simultaneously animate the adapter
-     */
-    fun animateMainListAdapter(open: Boolean) {
-        mainListAdapter.animateItems(open)
+    private fun updateRecyclerViewAnimDuration() {
+        recyclerView.itemAnimator?.removeDuration = FiltersLayout.closeIconRotationDuration * 60 / 100
+        recyclerView.itemAnimator?.addDuration = FiltersLayout.closeIconRotationDuration
     }
 
     private fun openBrowser(resId: Int) {
         startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(getString(resId))))
     }
+
+    /**
+     * Called from FiltersLayout to get adapter scale down animator
+     */
+    fun getAdapterScaleDownAnimator(isScaledDown: Boolean): ValueAnimator =
+            mainListAdapter.getScaleDownAnimator(isScaledDown)
 }

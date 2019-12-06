@@ -12,9 +12,10 @@ class NoScrollRecyclerView @JvmOverloads constructor(context: Context, attrs: At
     : RecyclerView(context, attrs, defStyleAttr) {
 
     override fun scrollBy(x: Int, y: Int) {
-        (layoutManager as? NoScrollHorizontalLayoutManager)?.canScrollHorizontally = true
+        val lm = layoutManager as? NoScrollHorizontalLayoutManager
+        lm?.canScrollHorizontally = true
         super.scrollBy(x, y)
-        (layoutManager as? NoScrollHorizontalLayoutManager)?.canScrollHorizontally = false
+        lm?.canScrollHorizontally = false
     }
 }
 

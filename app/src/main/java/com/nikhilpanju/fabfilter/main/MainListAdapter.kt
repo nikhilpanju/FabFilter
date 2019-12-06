@@ -1,5 +1,6 @@
 package com.nikhilpanju.fabfilter.main
 
+import android.animation.ValueAnimator
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -7,23 +8,17 @@ import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.core.animation.doOnEnd
 import androidx.core.animation.doOnStart
+import androidx.core.view.doOnLayout
+import androidx.core.view.doOnNextLayout
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.nikhilpanju.fabfilter.R
-import com.nikhilpanju.fabfilter.filter.FiltersLayout
 import com.nikhilpanju.fabfilter.utils.*
-import java.util.*
 
-/**
- * List Model. A sample model that only contains id
- * titleWidth is a random dp value for the width of titleView in ViewHolder
- */
-data class MainListModel(val id: Int) {
-    val titleWidth = (140 + Random().nextInt(6) * 20).dp
-}
-
-/** Used as payload when doing the scale down animation */
-class ScaleDownPayload(val scaleDown: Boolean)
+/** List Model. A sample model that only contains id */
+data class MainListModel(val id: Int)
 
 class MainListAdapter(context: Context) : RecyclerView.Adapter<MainListAdapter.ListViewHolder>() {
 
@@ -37,15 +32,21 @@ class MainListAdapter(context: Context) : RecyclerView.Adapter<MainListAdapter.L
     private var originalHeight = -1 // will be calculated dynamically
     private var expandedHeight = -1 // will be calculated dynamically
 
+    // filteredItems is a static field to simulate filtering of random items
     private val filteredItems = intArrayOf(2, 5, 6, 8, 12)
     private val modelList = List(20) { MainListModel(it) }
-    private val modelListFiltered = modelList.filterNot { it.id in filteredItems }
+    private val modelListFiltered = modelList.filter { it.id !in filteredItems }
     private val adapterList: List<MainListModel> get() = if (isFiltered) modelListFiltered else modelList
+
     /** Variable used to filter adapter items. 'true' if filtered and 'false' if not */
     var isFiltered = false
         set(value) {
             field = value
-            filteredItems.forEach { if (value) notifyItemRemoved(it) else notifyItemInserted(it) }
+            val diff = MainListDiffUtil(
+                    if (field) modelList else modelListFiltered,
+                    if (field) modelListFiltered else modelList
+            )
+            DiffUtil.calculateDiff(diff).dispatchUpdatesTo(this)
         }
 
     private val listItemExpandDuration: Long get() = (300L / animationPlaybackSpeed).toLong()
@@ -73,29 +74,26 @@ class MainListAdapter(context: Context) : RecyclerView.Adapter<MainListAdapter.L
         val model = adapterList[position]
 
         expandItem(holder, model == expandedModel, animate = false)
-        scaleDownItem(holder, position, isScaledDown, animate = false)
-
-        holder.title.layoutParams.width = model.titleWidth
+        scaleDownItem(holder, position, isScaledDown)
 
         holder.cardContainer.setOnClickListener {
+            if (expandedModel == null) {
 
-            if (expandedModel == model) {
+                // expand clicked view
+                expandItem(holder, expand = true, animate = true)
+                expandedModel = model
+            } else if (expandedModel == model) {
 
                 // collapse clicked view
                 expandItem(holder, expand = false, animate = true)
                 expandedModel = null
-            } else if (expandedModel != null) {
+            } else {
 
                 // collapse previously expanded view
                 val expandedModelPosition = adapterList.indexOf(expandedModel!!)
                 val oldViewHolder =
                         recyclerView.findViewHolderForAdapterPosition(expandedModelPosition) as? ListViewHolder
                 if (oldViewHolder != null) expandItem(oldViewHolder, expand = false, animate = true)
-
-                // expand clicked view
-                expandItem(holder, expand = true, animate = true)
-                expandedModel = model
-            } else {
 
                 // expand clicked view
                 expandItem(holder, expand = true, animate = true)
@@ -116,25 +114,35 @@ class MainListAdapter(context: Context) : RecyclerView.Adapter<MainListAdapter.L
             animator.start()
         } else {
 
-            // get originalHeight & expandedHeight if not gotten before
-            if (expandedHeight < 0) {
-                expandedHeight = 0 // so that this block is only called once
+            // show expandView only if we have expandedHeight (onViewAttached)
+            holder.expandView.isVisible = expand && expandedHeight >= 0
+            setExpandProgress(holder, if (expand) 1f else 0f)
+        }
+    }
 
-                holder.cardContainer.doOnGlobalLayout {
-                    originalHeight = holder.cardContainer.height
+    override fun onViewAttachedToWindow(holder: ListViewHolder) {
+        super.onViewAttachedToWindow(holder)
 
-                    // show expandView and record expandedHeight in
-                    // next layout pass (doOnGlobalLayout) and hide it immediately
-                    holder.expandView.isVisible = true
-                    holder.cardContainer.doOnGlobalLayout {
-                        expandedHeight = holder.cardContainer.height
+        // get originalHeight & expandedHeight if not gotten before
+        if (expandedHeight < 0) {
+            expandedHeight = 0 // so that this block is only called once
+
+            holder.cardContainer.doOnLayout { view ->
+                originalHeight = view.height
+
+                // show expandView and record expandedHeight in next
+                // layout pass (doOnNextLayout) and hide it immediately
+                holder.expandView.isVisible = true
+                holder.cardContainer.doOnNextLayout { view ->
+                    expandedHeight = view.height
+
+                    // We use post{} to hide the view. Otherwise it will not
+                    // lay it out again, since this block is done on the layout pass
+                    holder.expandView.post {
                         holder.expandView.isVisible = false
                     }
                 }
-            } else {
-                holder.expandView.isVisible = expand
             }
-            setExpandProgress(holder, if (expand) 1f else 0f)
         }
     }
 
@@ -156,47 +164,42 @@ class MainListAdapter(context: Context) : RecyclerView.Adapter<MainListAdapter.L
     // Scale Down Animation
     ///////////////////////////////////////////////////////////////////////////
 
-    /**
-     * Called to shrink items. notifyItemRangeChanged with payload will call onBindViewHolder
-     * with payload where we will do the animation.
-     *
-     * Note: This animation is very heavy because it animates each item individually. Not very feasible
-     * unless the no. of visible items in recy
-     */
-    fun animateItems(scaleDown: Boolean) {
-        isScaledDown = scaleDown
-        notifyItemRangeChanged(0, itemCount, ScaleDownPayload(scaleDown))
-    }
+    private inline val LinearLayoutManager.visibleItemsRange: IntRange
+        get() = findFirstVisibleItemPosition()..findLastVisibleItemPosition()
 
-    override fun onBindViewHolder(holder: ListViewHolder, position: Int, payloads: MutableList<Any>) {
-        val payload = payloads.firstOrNull { it is ScaleDownPayload } as? ScaleDownPayload
-                ?: return super.onBindViewHolder(holder, position, payloads)
+    fun getScaleDownAnimator(isScaledDown: Boolean): ValueAnimator {
+        val lm = recyclerView.layoutManager as LinearLayoutManager
 
-        scaleDownItem(holder, position, payload.scaleDown, animate = true)
-    }
+        val animator = getValueAnimator(isScaledDown,
+                duration = 300L, interpolator = AccelerateDecelerateInterpolator()
+        ) { progress ->
 
-    private fun scaleDownItem(holder: ListViewHolder, position: Int, scaleDown: Boolean, animate: Boolean) {
-        if (animate) {
-            val shrinkAnimator = getValueAnimator(
-                    scaleDown,
-                    FiltersLayout.pathAnimDuration,
-                    FiltersLayout.getPathAnimationInterpolator(scaleDown)
-            ) { progress -> setScaleDownProgress(holder, position, progress) }
-            shrinkAnimator.start()
-        } else {
-            setScaleDownProgress(holder, position, if (scaleDown) 1f else 0f)
+            // Get viewHolder for all visible items and animate attributes
+            for (i in lm.visibleItemsRange) {
+                val holder = recyclerView.findViewHolderForLayoutPosition(i) as ListViewHolder
+                setScaleDownProgress(holder, i, progress)
+            }
         }
+
+        // Set adapter variable when animation starts so that newly binded views in
+        // onBindViewHolder will respect the new size when they come into the screen
+        animator.doOnStart { this.isScaledDown = isScaledDown }
+
+        // For all the non visible items in the layout manager, notify them to adjust the
+        // view to the new size
+        animator.doOnEnd {
+            repeat(lm.itemCount) { if (it !in lm.visibleItemsRange) notifyItemChanged(it) }
+        }
+        return animator
     }
 
     private fun setScaleDownProgress(holder: ListViewHolder, position: Int, progress: Float) {
-        val model = adapterList[position]
-        val itemExpanded = model == expandedModel
+        val itemExpanded = position >= 0 && adapterList[position] == expandedModel
         holder.cardContainer.layoutParams.width =
                 ((if (itemExpanded) expandedWidth else originalWidth) * (1 - 0.1f * progress)).toInt()
         holder.cardContainer.layoutParams.height =
                 ((if (itemExpanded) expandedHeight else originalHeight) * (1 - 0.1f * progress)).toInt()
 
-        holder.scaleContainer.pivotX = 0f
         holder.scaleContainer.scaleX = 1 - 0.05f * progress
         holder.scaleContainer.scaleY = 1 - 0.05f * progress
 
@@ -212,13 +215,17 @@ class MainListAdapter(context: Context) : RecyclerView.Adapter<MainListAdapter.L
         holder.cardContainer.requestLayout()
     }
 
+    /** Convenience method for calling from onBindViewHolder */
+    private fun scaleDownItem(holder: ListViewHolder, position: Int, isScaleDown: Boolean) {
+        setScaleDownProgress(holder, position, if (isScaleDown) 1f else 0f)
+    }
+
     ///////////////////////////////////////////////////////////////////////////
     // ViewHolder
     ///////////////////////////////////////////////////////////////////////////
 
     class ListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        val title: View by bindView(R.id.title)
         val expandView: View by bindView(R.id.expand_view)
         val chevron: View by bindView(R.id.chevron)
         val cardContainer: View by bindView(R.id.card_container)

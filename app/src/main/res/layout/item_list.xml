@@ -41,7 +41,8 @@ too. layout_gravity="center_horizontal" is a lot simpler.
                 android:paddingLeft="@dimen/list_item_horizontal_padding"
                 android:paddingTop="@dimen/list_item_vertical_padding"
                 android:paddingRight="@dimen/list_item_horizontal_padding"
-                android:paddingBottom="@dimen/list_item_vertical_padding">
+                android:paddingBottom="@dimen/list_item_vertical_padding"
+                android:transformPivotX="0dp">
 
                 <ImageView
                     android:id="@+id/chevron"
