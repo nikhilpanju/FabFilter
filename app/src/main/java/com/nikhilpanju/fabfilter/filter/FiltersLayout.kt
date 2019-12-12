@@ -5,7 +5,6 @@ import android.animation.TimeInterpolator
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.res.ColorStateList
 import android.util.AttributeSet
 import android.view.View
 import android.view.animation.*
@@ -17,8 +16,6 @@ import androidx.core.animation.doOnStart
 import androidx.core.view.doOnLayout
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
-import androidx.core.view.updatePadding
-import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.nikhilpanju.fabfilter.R
 import com.nikhilpanju.fabfilter.main.MainActivity
@@ -56,8 +53,6 @@ class FiltersLayout @JvmOverloads constructor(context: Context, attrs: Attribute
     private val bgColor: Int by bindColor(R.color.colorPrimaryDark)
     private val filterIconColor: Int by bindColor(R.color.filter_icon_color)
     private val filterIconActiveColor: Int by bindColor(R.color.filter_icon_active_color)
-    private val tabColor: Int by bindColor(R.color.tab_unselected_color)
-    private val tabSelectedColor: Int by bindColor(R.color.tab_selected_color)
 
     private val fabSize: Float by bindDimen(R.dimen.fab_size)
     private val fabSizeInset: Float by bindDimen(R.dimen.fab_size_inset)
@@ -66,8 +61,6 @@ class FiltersLayout @JvmOverloads constructor(context: Context, attrs: Attribute
     private val fabPressedElevation: Float by bindDimen(R.dimen.fab_pressed_elevation)
     private val fabMargin: Float by bindDimen(R.dimen.fab_margin)
     private val tabsHeight: Float by bindDimen(R.dimen.tabs_height)
-    private val tabItemWidth: Float by bindDimen(R.dimen.tab_item_width)
-    private val filterLayoutPadding: Float by bindDimen(R.dimen.filter_layout_padding)
     private val sheetWidth: Float by lazy { screenWidth.toFloat() }
     private val sheetHeight: Float by lazy { screenWidth.toFloat() }
     private val fragmentHeight: Int by lazy { mainContainer.height }
@@ -79,9 +72,9 @@ class FiltersLayout @JvmOverloads constructor(context: Context, attrs: Attribute
     private val bottomBarTranslateAmount: Float by lazy { screenWidth / 4f }
     private val viewPagerTranslateAmount = 32f.dp
 
-    private lateinit var tabsAdapter: FiltersTabsAdapter
-    private var totalTabsScroll = 0
-    private var hasActiveFilters = false
+    private val tabsHandler: ViewPagerTabsHandler by lazy {
+        ViewPagerTabsHandler(viewPager, tabsRecyclerView, bottomBarCardView)
+    }
 
     ///////////////////////////////////////////////////////////////////////////
     // Methods
@@ -89,6 +82,7 @@ class FiltersLayout @JvmOverloads constructor(context: Context, attrs: Attribute
 
     init {
         inflate(context, R.layout.layout_filter, this)
+        tabsHandler.init()
 
         mainContainer.doOnLayout {
             fab.x = fabX
@@ -106,71 +100,9 @@ class FiltersLayout @JvmOverloads constructor(context: Context, attrs: Attribute
                 unFilterAdapterWithFabAnimation()
             } else {
                 // We're opening the fab so set the adapters and open filter sheet
-                setAdapters(true)
+                tabsHandler.setAdapters(true)
                 openFilterSheet(true)
             }
-        }
-
-        // ViewPager & Tabs
-        viewPager.offscreenPageLimit = numTabs
-        tabsRecyclerView.updatePadding(right = (screenWidth - tabItemWidth - filterLayoutPadding).toInt())
-        tabsRecyclerView.layoutManager = NoScrollHorizontalLayoutManager(context)
-
-        // Sync Tabs And Pager
-        tabsRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                totalTabsScroll += dx
-            }
-        })
-
-        viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
-                // Scroll tabs as viewpager is scrolled
-                val dx = (position + positionOffset) * tabItemWidth - totalTabsScroll
-                tabsRecyclerView.scrollBy(dx.toInt(), 0)
-
-                // This acts like a page transformer for tabsRecyclerView. Ideally we should do this in the
-                // onScrollListener for the RecyclerView but that requires extra math. positionOffset
-                // is all we need so let's use that to apply transformation to the tabs
-
-                val currentTabView = tabsRecyclerView.layoutManager?.findViewByPosition(position)!!
-                val nextTabView = tabsRecyclerView.layoutManager?.findViewByPosition(position + 1)
-
-                val defaultScale: Float = FiltersTabsAdapter.defaultScale
-                val maxScale: Float = FiltersTabsAdapter.maxScale
-
-                currentTabView.setScale(defaultScale + (1 - positionOffset) * (maxScale - defaultScale))
-                nextTabView?.setScale(defaultScale + positionOffset * (maxScale - defaultScale))
-
-                currentTabView.findViewById<View>(R.id.tab_pill).backgroundTintList =
-                        ColorStateList.valueOf(blendColors(tabColor, tabSelectedColor, 1 - positionOffset))
-                nextTabView?.findViewById<View>(R.id.tab_pill)?.backgroundTintList =
-                        ColorStateList.valueOf(blendColors(tabColor, tabSelectedColor, positionOffset))
-            }
-        })
-    }
-
-    /**
-     * Callback method for FiltersPagerAdapter. When ever a filter is selected, adapter will call this function.
-     * Animates the bottom bar to pink if there are any active filters and vice versa
-     */
-    private fun onFilterSelected(updatedPosition: Int, selectedMap: Map<Int, List<Int>>) {
-        val hasActiveFilters = selectedMap.filterValues { it.isNotEmpty() }.isNotEmpty()
-        val bottomBarAnimator =
-                if (hasActiveFilters && !this.hasActiveFilters) ValueAnimator.ofFloat(0f, 1f)
-                else if (!hasActiveFilters && this.hasActiveFilters) ValueAnimator.ofFloat(1f, 0f)
-                else null
-
-        tabsAdapter.updateBadge(updatedPosition, !selectedMap[updatedPosition].isNullOrEmpty())
-
-        bottomBarAnimator?.let {
-            this.hasActiveFilters = !this.hasActiveFilters
-            it.addUpdateListener { animation ->
-                val color = blendColors(bottomBarColor, bottomBarPinkColor, animation.animatedValue as Float)
-                bottomBarCardView.setCardBackgroundColor(color)
-            }
-            it.duration = toggleDuration
-            it.start()
         }
     }
 
@@ -232,7 +164,7 @@ class FiltersLayout @JvmOverloads constructor(context: Context, attrs: Attribute
 
             // 4a) Bottom bar bg is faded in for it to stand out
             bottomBarCardView.setCardBackgroundColor(
-                    blendColors(bgColor, if (hasActiveFilters) bottomBarPinkColor else bottomBarColor, progress))
+                    blendColors(bgColor, if (tabsHandler.hasActiveFilters) bottomBarPinkColor else bottomBarColor, progress))
 
             // 4b) Bottom bar slides in from left
             bottomBarContainer.translationX = -bottomBarTranslateAmount * (1 - progress)
@@ -270,7 +202,7 @@ class FiltersLayout @JvmOverloads constructor(context: Context, attrs: Attribute
             set.play(pathAnimator).with(scaleDownAnimator)
 
             // Remove adapters after filter sheet is closed
-            set.doOnEnd { setAdapters(false) }
+            set.doOnEnd { tabsHandler.setAdapters(false) }
         }
         set.start()
     }
@@ -280,7 +212,7 @@ class FiltersLayout @JvmOverloads constructor(context: Context, attrs: Attribute
      * It's a choreography of 5 animations. Read the comments to know more.
      */
     private fun onFilterApplied() {
-        if (!hasActiveFilters) return
+        if (!tabsHandler.hasActiveFilters) return
 
         // 1) Fab collapse animator
         // The fab which is hidden behind the container is made visible and collapses down
@@ -356,7 +288,7 @@ class FiltersLayout @JvmOverloads constructor(context: Context, attrs: Attribute
         animSet.doOnEnd {
 
             // Reset everything after animation is done. When opening the next time, there shouldn't be an issue
-            setAdapters(false)
+            tabsHandler.setAdapters(false)
             fadeOutAnimator.currentPlayTime = 0
             bottomBarAnimator.currentPlayTime = 0
 
@@ -445,29 +377,6 @@ class FiltersLayout @JvmOverloads constructor(context: Context, attrs: Attribute
     private fun getCloseIconAnimator() = getValueAnimator(
             true, closeIconRotationDuration, DecelerateInterpolator()) { progress ->
         fabCloseIcon.rotation = 270 * progress
-    }
-
-    /**
-     * Used to set tab and view pager adapters and remove them when unnecessary.
-     * This is done because keeping the adapters around when fab is never clicked is wasteful.
-     */
-    private fun setAdapters(set: Boolean) {
-        if (set) {
-            viewPager.adapter = FiltersPagerAdapter(context!!, ::onFilterSelected)
-
-            // Tabs
-            tabsAdapter = FiltersTabsAdapter(context!!) { clickedPosition ->
-                // smoothScroll = true will call the onPageScrolled callback which will smoothly
-                // animate (transform) the tabs accordingly
-                viewPager.setCurrentItem(clickedPosition, true)
-            }
-            tabsRecyclerView.adapter = tabsAdapter
-        } else {
-            viewPager.adapter = null
-            tabsRecyclerView.adapter = null
-            hasActiveFilters = false
-            totalTabsScroll = 0
-        }
     }
 
     companion object {

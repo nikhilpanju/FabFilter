@@ -74,8 +74,7 @@
     <Transition
         android:id="@+id/collapse_transition"
         app:constraintSetEnd="@id/collapse_set"
-        app:constraintSetStart="@id/settle_set"
-        app:duration="700">
+        app:constraintSetStart="@id/settle_set">
         <KeyFrameSet>
             <KeyPosition
                 app:framePosition="0"
@@ -155,7 +154,6 @@
         app:autoTransition="animateToEnd"
         app:constraintSetEnd="@id/close_icon_loading_set"
         app:constraintSetStart="@id/collapse_set"
-        app:duration="600"
         app:motionInterpolator="easeOut" />
 
     <!-- /////////////////////////////////
@@ -226,6 +224,10 @@
             <CustomAttribute
                 app:attributeName="colorFilter"
                 app:customColorValue="@color/filter_icon_color" />
+
+            <!-- Shouldn't exist - it's just a repeat -->
+            <!-- Ideally never need to change this in any set since it's defined in layout itself-->
+            <Transform android:elevation="34dp" />
         </Constraint>
 
         <Constraint android:id="@id/view_pager">
@@ -299,6 +301,16 @@
                 app:attributeName="radius"
                 app:customDimension="@dimen/fab_radius" />
         </Constraint>
+        <Constraint android:id="@id/filter_icon">
+
+            <!-- Shouldn't exist - it's just a repeat -->
+            <CustomAttribute
+                app:attributeName="colorFilter"
+                app:customColorValue="@color/filter_icon_color" />
+
+            <!-- Shouldn't exist - it's just a repeat -->
+            <Transform android:elevation="34dp" />
+        </Constraint>
     </ConstraintSet>
 
     <!-- /////////////////////////////////
@@ -336,6 +348,9 @@
             <CustomAttribute
                 app:attributeName="colorFilter"
                 app:customColorValue="@color/filter_icon_color" />
+
+            <!-- Shouldn't exist - it's just a repeat -->
+            <Transform android:elevation="34dp" />
         </Constraint>
 
         <!-- Shouldn't exist - it's just a repeat -->

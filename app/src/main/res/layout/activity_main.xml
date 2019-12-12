@@ -52,9 +52,10 @@
             android:paddingTop="20dp"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-        <!--        <com.nikhilpanju.fabfilter.filter.FiltersLayout-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="match_parent" />-->
+        <!--<com.nikhilpanju.fabfilter.filter.FiltersLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />-->
+
         <com.nikhilpanju.fabfilter.filter.FiltersMotionLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
