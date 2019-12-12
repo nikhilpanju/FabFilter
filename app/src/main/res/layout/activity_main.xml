@@ -55,10 +55,13 @@
         <!--        <com.nikhilpanju.fabfilter.filter.FiltersLayout-->
         <!--            android:layout_width="match_parent"-->
         <!--            android:layout_height="match_parent" />-->
-        <include
-            layout="@layout/layout_filter_motion"
+        <com.nikhilpanju.fabfilter.filter.FiltersMotionLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            app:currentState="@id/original_set"
+            app:layoutDescription="@xml/scene_filter"
+            app:motionDebug="NO_DEBUG"
+            app:showPaths="false" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

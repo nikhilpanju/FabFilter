@@ -8,20 +8,15 @@ import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager2.widget.ViewPager2
 import com.crystal.crystalrangeseekbar.widgets.CrystalSeekbar
 import com.google.android.material.appbar.AppBarLayout
 import com.nikhilpanju.fabfilter.R
 import com.nikhilpanju.fabfilter.filter.FiltersLayout
-import com.nikhilpanju.fabfilter.filter.FiltersPagerAdapter
-import com.nikhilpanju.fabfilter.filter.FiltersTabsAdapter
-import com.nikhilpanju.fabfilter.filter.NoScrollRecyclerView
 import com.nikhilpanju.fabfilter.utils.bindView
 
 
@@ -35,10 +30,6 @@ class MainActivity : AppCompatActivity() {
     private val recyclerView: RecyclerView by bindView(R.id.recycler_view)
     private val appbar: AppBarLayout by bindView(R.id.appbar)
     private val drawerIcon: View by bindView(R.id.drawer_icon)
-    private val motionLayout: MotionLayout by bindView(R.id.motion_layout)
-    private val fab: View by bindView(R.id.fab)
-    private val tabsRecyclerView: NoScrollRecyclerView by bindView(R.id.tabs_recycler_view)
-    private val viewPager: ViewPager2 by bindView(R.id.view_pager)
 
     // layout/nav_drawer views
     private val drawerLayout: DrawerLayout by bindView(R.id.drawer_layout)
@@ -46,7 +37,6 @@ class MainActivity : AppCompatActivity() {
     private val animationSpeedText: TextView by bindView(R.id.animation_speed_text)
     private val githubCodeLink: TextView by bindView(R.id.github_code_link)
     private val githubMeLink: TextView by bindView(R.id.github_me_link)
-
 
     private lateinit var mainListAdapter: MainListAdapter
 
@@ -84,17 +74,6 @@ class MainActivity : AppCompatActivity() {
         drawerIcon.setOnClickListener { drawerLayout.openDrawer(GravityCompat.START) }
         githubCodeLink.setOnClickListener { openBrowser(R.string.github_link_code) }
         githubMeLink.setOnClickListener { openBrowser(R.string.github_link_me) }
-
-//        fab.setOnClickListener { motionLayout.transitionToState(R.id.path_set) }
-        viewPager.adapter = FiltersPagerAdapter(this) { _, _ -> }
-
-        // Tabs
-        val tabsAdapter = FiltersTabsAdapter(this) { clickedPosition ->
-            // smoothScroll = true will call the onPageScrolled callback which will smoothly
-            // animate (transform) the tabs accordingly
-            viewPager.setCurrentItem(clickedPosition, true)
-        }
-        tabsRecyclerView.adapter = tabsAdapter
     }
 
     private fun updateRecyclerViewAnimDuration() {

@@ -1,38 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <MotionScene
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:defaultDuration="1000">
+
+    <!-- /////////////////////////////////
+    /////////// Path Transition
+    ///////////////////////////////// -->
 
     <Transition
+        android:id="@+id/path_transition"
         app:constraintSetEnd="@id/path_set"
-        app:constraintSetStart="@id/original_set"
-        app:duration="500">
-
-        <OnClick
-            app:clickAction="transitionToEnd"
-            app:targetId="@id/fab" />
+        app:constraintSetStart="@id/original_set">
 
         <KeyFrameSet>
             <KeyPosition
                 app:framePosition="50"
                 app:keyPositionType="deltaRelative"
                 app:motionTarget="@id/fab"
-                app:percentX="0.8"
-                app:percentY="0.2" />
+                app:percentX="0.75"
+                app:percentY="0.25" />
             <KeyPosition
                 app:framePosition="50"
                 app:keyPositionType="deltaRelative"
-                app:motionTarget="@id/fab_filter_icon"
-                app:percentX="0.8"
-                app:percentY="0.2" />
+                app:motionTarget="@id/filter_icon"
+                app:percentX="0.75"
+                app:percentY="0.25" />
         </KeyFrameSet>
     </Transition>
 
+    <!-- /////////////////////////////////
+    /////////// Reveal Transition
+    ///////////////////////////////// -->
+
     <Transition
-        app:autoTransition="animateToEnd"
+        android:id="@+id/reveal_transition"
         app:constraintSetEnd="@id/reveal_set"
-        app:constraintSetStart="@id/path_set"
-        app:duration="500">
+        app:constraintSetStart="@id/path_set">
         <KeyFrameSet>
             <KeyAttribute
                 app:framePosition="80"
@@ -49,16 +53,148 @@
             <KeyPosition
                 app:framePosition="80"
                 app:keyPositionType="deltaRelative"
-                app:motionTarget="@id/fab_filter_icon"
+                app:motionTarget="@id/filter_icon"
                 app:percentY="1" />
         </KeyFrameSet>
     </Transition>
 
+    <!-- /////////////////////////////////
+    /////////// Settle Transition
+    ///////////////////////////////// -->
+
     <Transition
-        app:autoTransition="animateToEnd"
+        android:id="@+id/settle_transition"
         app:constraintSetEnd="@id/settle_set"
-        app:constraintSetStart="@id/reveal_set"
-        app:duration="500" />
+        app:constraintSetStart="@id/reveal_set" />
+
+    <!-- /////////////////////////////////
+    /////////// Collapse Transition
+    ///////////////////////////////// -->
+
+    <Transition
+        android:id="@+id/collapse_transition"
+        app:constraintSetEnd="@id/collapse_set"
+        app:constraintSetStart="@id/settle_set"
+        app:duration="700">
+        <KeyFrameSet>
+            <KeyPosition
+                app:framePosition="0"
+                app:motionTarget="@id/fab"
+                app:percentHeight="0"
+                app:percentWidth="0" />
+            <KeyAttribute
+                android:scaleX="1.5"
+                android:scaleY="1.5"
+                app:framePosition="1"
+                app:motionTarget="@id/fab">
+                <CustomAttribute
+                    app:attributeName="radius"
+                    app:customDimension="600dp" />
+                <KeyPosition
+                    app:framePosition="45"
+                    app:motionTarget="@id/fab"
+                    app:percentHeight="0"
+                    app:percentWidth="0" />
+            </KeyAttribute>
+            <KeyAttribute
+                android:scaleX="1.75"
+                android:scaleY="1.75"
+                app:framePosition="45"
+                app:motionTarget="@id/fab">
+                <CustomAttribute
+                    app:attributeName="radius"
+                    app:customDimension="600dp" />
+            </KeyAttribute>
+            <KeyAttribute
+                android:alpha="0"
+                app:framePosition="30"
+                app:motionTarget="@id/filter_icon" />
+            <KeyPosition
+                app:framePosition="65"
+                app:motionTarget="@id/bottom_bar_card_view"
+                app:percentHeight="1"
+                app:percentWidth="1"
+                app:percentX="1"
+                app:percentY="1" />
+            <KeyAttribute
+                app:framePosition="65"
+                app:motionTarget="@id/bottom_bar_card_view">
+                <CustomAttribute
+                    app:attributeName="radius"
+                    app:customDimension="@dimen/fab_radius_inset" />
+            </KeyAttribute>
+            <KeyPosition
+                app:framePosition="65"
+                app:motionTarget="@id/close_icon"
+                app:percentHeight="1"
+                app:percentWidth="1"
+                app:percentX="1"
+                app:percentY="1" />
+
+            <KeyAttribute
+                android:alpha="0"
+                android:scaleX="0.8"
+                android:scaleY="0.8"
+                app:framePosition="30"
+                app:motionTarget="@id/tabs_recycler_view" />
+            <KeyAttribute
+                android:alpha="0"
+                android:scaleX="0.8"
+                android:scaleY="0.8"
+                app:framePosition="30"
+                app:motionTarget="@id/view_pager" />
+        </KeyFrameSet>
+    </Transition>
+
+    <!-- /////////////////////////////////
+    /////////// Loading Transition
+    ///////////////////////////////// -->
+
+    <Transition
+        android:id="@+id/loading_transition"
+        app:autoTransition="animateToEnd"
+        app:constraintSetEnd="@id/close_icon_loading_set"
+        app:constraintSetStart="@id/collapse_set"
+        app:duration="600"
+        app:motionInterpolator="easeOut" />
+
+    <!-- /////////////////////////////////
+    /////////// Path Filtered Transition
+    ///////////////////////////////// -->
+
+    <Transition
+        android:id="@+id/path_filtered_transition"
+        app:autoTransition="animateToEnd"
+        app:constraintSetEnd="@id/original_filtered_set"
+        app:constraintSetStart="@id/close_icon_loading_set"
+        app:motionInterpolator="easeOut">
+        <KeyFrameSet>
+            <KeyPosition
+                app:framePosition="50"
+                app:keyPositionType="deltaRelative"
+                app:motionTarget="@id/fab"
+                app:percentX="0.25"
+                app:percentY="0.75" />
+            <KeyPosition
+                app:framePosition="50"
+                app:keyPositionType="deltaRelative"
+                app:motionTarget="@id/close_icon"
+                app:percentX="0.25"
+                app:percentY="0.75" />
+            <KeyPosition
+                app:framePosition="50"
+                app:keyPositionType="deltaRelative"
+                app:motionTarget="@id/bottom_bar_card_view"
+                app:percentX="0.25"
+                app:percentY="0.75" />
+        </KeyFrameSet>
+    </Transition>
+
+    <!-- ////////////////////////////////////////////////////////////////////////////////-->
+    <!-- ////////////////////////////////////////////////////////////////////////////////-->
+    <!-- ////////////////////////// Constraint Sets /////////////////////////////////////-->
+    <!-- ////////////////////////////////////////////////////////////////////////////////-->
+    <!-- ////////////////////////////////////////////////////////////////////////////////-->
 
     <!-- /////////////////////////////////
     /////////// Original Set
@@ -79,7 +215,7 @@
                 app:customDimension="@dimen/fab_radius" />
         </Constraint>
 
-        <Constraint android:id="@id/fab_filter_icon">
+        <Constraint android:id="@id/filter_icon">
             <Layout
                 android:layout_width="@dimen/fab_size"
                 android:layout_height="@dimen/fab_size"
@@ -187,7 +323,7 @@
                 app:attributeName="radius"
                 app:customDimension="0dp" />
         </Constraint>
-        <Constraint android:id="@id/fab_filter_icon">
+        <Constraint android:id="@id/filter_icon">
             <Layout
                 android:layout_width="@dimen/fab_size"
                 android:layout_height="@dimen/fab_size"
@@ -196,6 +332,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/bottom_bar_card_view" />
 
+            <!-- Shouldn't exist - it's just a repeat -->
             <CustomAttribute
                 app:attributeName="colorFilter"
                 app:customColorValue="@color/filter_icon_color" />
@@ -208,6 +345,8 @@
                 android:alpha="0"
                 android:visibility="invisible" />
         </Constraint>
+
+        <!-- Shouldn't exist - it's just a repeat -->
         <Constraint android:id="@id/bottom_bar_card_view">
             <Layout
                 android:layout_width="0dp"
@@ -235,7 +374,14 @@
         android:id="@+id/settle_set"
         app:deriveConstraintsFrom="@id/reveal_set">
 
-        <Constraint android:id="@id/fab_filter_icon">
+        <Constraint android:id="@id/fab">
+            <!-- repeat unnecessary -->
+            <CustomAttribute
+                app:attributeName="radius"
+                app:customDimension="0dp" />
+        </Constraint>
+
+        <Constraint android:id="@id/filter_icon">
             <Layout
                 android:layout_width="@dimen/fab_size"
                 android:layout_height="@dimen/fab_size"
@@ -243,6 +389,9 @@
                 app:layout_constraintEnd_toStartOf="@id/guideline2"
                 app:layout_constraintStart_toStartOf="@id/guideline2"
                 app:layout_constraintTop_toTopOf="@id/bottom_bar_card_view" />
+
+            <!-- Shouldn't exist - it's just a repeat -->
+            <Transform android:elevation="34dp" />
 
             <CustomAttribute
                 app:attributeName="colorFilter"
@@ -271,6 +420,11 @@
                 app:attributeName="cardBackgroundColor"
                 app:customColorValue="@color/bottom_bar_color" />
             <PropertySet android:visibility="visible" />
+
+            <!-- repeat unnecessary -->
+            <CustomAttribute
+                app:attributeName="radius"
+                app:customDimension="0dp" />
         </Constraint>
 
         <Constraint android:id="@id/close_icon">
@@ -284,6 +438,137 @@
 
             <PropertySet android:alpha="1" />
         </Constraint>
+    </ConstraintSet>
 
+    <!-- /////////////////////////////////
+    /////////// Collapse Set
+    ///////////////////////////////// -->
+
+    <ConstraintSet
+        android:id="@+id/collapse_set"
+        app:deriveConstraintsFrom="@id/settle_set">
+
+        <Constraint android:id="@id/fab">
+            <Layout
+                android:layout_width="@dimen/fab_size"
+                android:layout_height="@dimen/fab_size"
+                android:layout_marginEnd="0dp"
+                android:layout_marginBottom="0dp"
+                app:layout_constraintBottom_toBottomOf="@id/filter_sheet_placeholder"
+                app:layout_constraintEnd_toEndOf="@id/filter_sheet_placeholder"
+                app:layout_constraintStart_toStartOf="@id/filter_sheet_placeholder"
+                app:layout_constraintTop_toTopOf="@id/filter_sheet_placeholder" />
+
+            <Transform
+                android:scaleX="1"
+                android:scaleY="1" />
+
+            <!-- Shouldn't exist - it's just a repeat -->
+            <CustomAttribute
+                app:attributeName="radius"
+                app:customDimension="@dimen/fab_radius" />
+        </Constraint>
+
+        <Constraint android:id="@id/filter_icon">
+            <Layout
+                android:layout_width="@dimen/fab_size"
+                android:layout_height="@dimen/fab_size"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <CustomAttribute
+                app:attributeName="colorFilter"
+                app:customColorValue="@color/filter_icon_color" />
+
+            <PropertySet
+                android:alpha="0"
+                android:visibility="invisible" />
+
+            <!-- Shouldn't exist - it's just a repeat -->
+            <Transform android:elevation="34dp" />
+
+        </Constraint>
+
+        <Constraint android:id="@id/view_pager">
+            <Transform
+                android:scaleX="0.8"
+                android:scaleY="0.8" />
+            <PropertySet
+                android:alpha="0"
+                android:visibility="invisible" />
+        </Constraint>
+
+        <Constraint android:id="@id/tabs_recycler_view">
+            <Transform
+                android:scaleX="0.8"
+                android:scaleY="0.8" />
+            <PropertySet
+                android:alpha="0"
+                android:visibility="invisible" />
+        </Constraint>
+
+        <Constraint android:id="@id/bottom_bar_card_view">
+
+            <Layout
+                android:layout_width="@dimen/fab_size_inset"
+                android:layout_height="@dimen/fab_size_inset"
+                app:layout_constraintBottom_toBottomOf="@id/fab"
+                app:layout_constraintEnd_toEndOf="@id/fab"
+                app:layout_constraintStart_toStartOf="@id/fab"
+                app:layout_constraintTop_toTopOf="@id/fab" />
+
+            <CustomAttribute
+                app:attributeName="cardBackgroundColor"
+                app:customColorValue="@color/colorAccent" />
+
+            <CustomAttribute
+                app:attributeName="radius"
+                app:customDimension="@dimen/fab_radius_inset" />
+        </Constraint>
+
+        <Constraint android:id="@id/close_icon">
+            <Layout
+                android:layout_width="@dimen/fab_size"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="@id/bottom_bar_card_view"
+                app:layout_constraintEnd_toEndOf="@id/bottom_bar_card_view"
+                app:layout_constraintStart_toStartOf="@id/bottom_bar_card_view"
+                app:layout_constraintTop_toTopOf="@id/bottom_bar_card_view" />
+        </Constraint>
+    </ConstraintSet>
+
+    <!-- /////////////////////////////////
+    /////////// Close Icon Loading Set
+    ///////////////////////////////// -->
+
+    <ConstraintSet
+        android:id="@+id/close_icon_loading_set"
+        app:deriveConstraintsFrom="@id/collapse_set">
+        <Constraint android:id="@id/close_icon">
+            <Transform android:rotation="270" />
+        </Constraint>
+    </ConstraintSet>
+
+    <!-- /////////////////////////////////
+    /////////// Original Filtered Set
+    ///////////////////////////////// -->
+
+    <ConstraintSet
+        android:id="@+id/original_filtered_set"
+        app:deriveConstraintsFrom="@id/close_icon_loading_set">
+        <Constraint android:id="@id/fab">
+            <Layout
+                android:layout_width="@dimen/fab_size"
+                android:layout_height="@dimen/fab_size"
+                android:layout_marginEnd="@dimen/fab_margin"
+                android:layout_marginBottom="@dimen/fab_margin"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+        </Constraint>
+
+        <!-- Repeat -->
+        <Constraint android:id="@id/close_icon">
+            <Transform android:rotation="270" />
+        </Constraint>
     </ConstraintSet>
 </MotionScene>

@@ -8,6 +8,7 @@
             = 170 - 36 = 134-->
     <dimen name="fab_scene2_margin_bottom">134dp</dimen>
     <dimen name="fab_radius">36dp</dimen>
+    <dimen name="fab_radius_inset">28dp</dimen>
     <dimen name="fab_elevation">16dp</dimen>
     <dimen name="fab_elevation_2">32dp</dimen>
     <dimen name="fab_pressed_elevation">8dp</dimen>
