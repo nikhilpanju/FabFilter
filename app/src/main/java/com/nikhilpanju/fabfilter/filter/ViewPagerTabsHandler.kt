@@ -11,7 +11,13 @@ import androidx.viewpager2.widget.ViewPager2
 import com.nikhilpanju.fabfilter.R
 import com.nikhilpanju.fabfilter.utils.*
 
-//TODO document
+/**
+ * [FiltersLayout] and [FiltersMotionLayout] both use the same ViewPager2 and tab setup, hence
+ * we abstracted away those functionalities here.
+ *
+ * This class is responsible for setting up the viewpager and tabs, syncing them and keeping track
+ * of active filters
+ */
 @SuppressLint("WrongConstant")
 class ViewPagerTabsHandler(
         private val viewPager: ViewPager2,
@@ -28,10 +34,16 @@ class ViewPagerTabsHandler(
     private val tabItemWidth: Float by bindDimen(context, R.dimen.tab_item_width)
     private val filterLayoutPadding: Float by bindDimen(context, R.dimen.filter_layout_padding)
 
+    private val toggleAnimDuration = context.resources.getInteger(R.integer.toggleAnimDuration).toLong()
+
     private lateinit var tabsAdapter: FiltersTabsAdapter
     private var totalTabsScroll = 0
     var hasActiveFilters = false
         private set
+
+    ///////////////////////////////////////////////////////////////////////////
+    // Methods
+    ///////////////////////////////////////////////////////////////////////////
 
     fun init() {
         // ViewPager & Tabs
@@ -75,7 +87,8 @@ class ViewPagerTabsHandler(
 
     /**
      * Used to set tab and view pager adapters and remove them when unnecessary.
-     * This is done because keeping the adapters around when fab is never clicked is wasteful.
+     * This is done because keeping the adapters around when fab is never clicked
+     * or when fab is collapsed is wasteful.
      */
     fun setAdapters(set: Boolean) {
         if (set) {
@@ -97,7 +110,7 @@ class ViewPagerTabsHandler(
     }
 
     /**
-     * Callback method for FiltersPagerAdapter. When ever a filter is selected, adapter will call this function.
+     * Callback method for [FiltersPagerAdapter]. When ever a filter is selected, adapter will call this function.
      * Animates the bottom bar to pink if there are any active filters and vice versa
      */
     private fun onFilterSelected(updatedPosition: Int, selectedMap: Map<Int, List<Int>>) {
@@ -115,7 +128,7 @@ class ViewPagerTabsHandler(
                 val color = blendColors(bottomBarColor, bottomBarPinkColor, animation.animatedValue as Float)
                 bottomBarCardView.setCardBackgroundColor(color)
             }
-            it.duration = FiltersLayout.toggleDuration
+            it.duration = toggleAnimDuration
             it.start()
         }
     }

@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <MotionScene
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:defaultDuration="1000">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <!-- /////////////////////////////////
     /////////// Path Transition
@@ -11,21 +10,22 @@
     <Transition
         android:id="@+id/path_transition"
         app:constraintSetEnd="@id/path_set"
-        app:constraintSetStart="@id/original_set">
+        app:constraintSetStart="@id/original_set"
+        app:duration="@integer/pathAnimDuration">
 
         <KeyFrameSet>
             <KeyPosition
                 app:framePosition="50"
                 app:keyPositionType="deltaRelative"
                 app:motionTarget="@id/fab"
-                app:percentX="0.75"
-                app:percentY="0.25" />
+                app:percentX="0.85"
+                app:percentY="0.15" />
             <KeyPosition
                 app:framePosition="50"
                 app:keyPositionType="deltaRelative"
                 app:motionTarget="@id/filter_icon"
-                app:percentX="0.75"
-                app:percentY="0.25" />
+                app:percentX="0.85"
+                app:percentY="0.15" />
         </KeyFrameSet>
     </Transition>
 
@@ -36,7 +36,8 @@
     <Transition
         android:id="@+id/reveal_transition"
         app:constraintSetEnd="@id/reveal_set"
-        app:constraintSetStart="@id/path_set">
+        app:constraintSetStart="@id/path_set"
+        app:duration="@integer/revealAnimDuration">
         <KeyFrameSet>
             <KeyAttribute
                 app:framePosition="80"
@@ -65,7 +66,8 @@
     <Transition
         android:id="@+id/settle_transition"
         app:constraintSetEnd="@id/settle_set"
-        app:constraintSetStart="@id/reveal_set" />
+        app:constraintSetStart="@id/reveal_set"
+        app:duration="@integer/settleAnimDuration" />
 
     <!-- /////////////////////////////////
     /////////// Collapse Transition
@@ -74,7 +76,8 @@
     <Transition
         android:id="@+id/collapse_transition"
         app:constraintSetEnd="@id/collapse_set"
-        app:constraintSetStart="@id/settle_set">
+        app:constraintSetStart="@id/settle_set"
+        app:duration="@integer/collapseAnimDuration">
         <KeyFrameSet>
             <KeyPosition
                 app:framePosition="0"
@@ -152,8 +155,9 @@
     <Transition
         android:id="@+id/loading_transition"
         app:autoTransition="animateToEnd"
-        app:constraintSetEnd="@id/close_icon_loading_set"
+        app:constraintSetEnd="@id/collapse_loading_set"
         app:constraintSetStart="@id/collapse_set"
+        app:duration="@integer/loadingAnimDuration"
         app:motionInterpolator="easeOut" />
 
     <!-- /////////////////////////////////
@@ -164,27 +168,74 @@
         android:id="@+id/path_filtered_transition"
         app:autoTransition="animateToEnd"
         app:constraintSetEnd="@id/original_filtered_set"
-        app:constraintSetStart="@id/close_icon_loading_set"
+        app:constraintSetStart="@id/collapse_loading_set"
+        app:duration="@integer/pathAnimDuration"
         app:motionInterpolator="easeOut">
         <KeyFrameSet>
             <KeyPosition
                 app:framePosition="50"
                 app:keyPositionType="deltaRelative"
                 app:motionTarget="@id/fab"
-                app:percentX="0.25"
-                app:percentY="0.75" />
+                app:percentX="0.15"
+                app:percentY="0.85" />
             <KeyPosition
                 app:framePosition="50"
                 app:keyPositionType="deltaRelative"
                 app:motionTarget="@id/close_icon"
-                app:percentX="0.25"
-                app:percentY="0.75" />
+                app:percentX="0.15"
+                app:percentY="0.85" />
             <KeyPosition
                 app:framePosition="50"
                 app:keyPositionType="deltaRelative"
                 app:motionTarget="@id/bottom_bar_card_view"
-                app:percentX="0.25"
-                app:percentY="0.75" />
+                app:percentX="0.15"
+                app:percentY="0.85" />
+        </KeyFrameSet>
+    </Transition>
+
+    <!-- /////////////////////////////////
+    /////////// Fab Inset Transition
+    ///////////////////////////////// -->
+
+    <Transition
+        android:id="@+id/fab_inset_transition"
+        app:constraintSetEnd="@id/fab_inset_set"
+        app:constraintSetStart="@id/original_filtered_set"
+        app:duration="@integer/insetAnimDuration"
+        app:motionInterpolator="easeIn" />
+
+    <!-- /////////////////////////////////
+    /// Fab Inset Loading Transition
+    ///////////////////////////////// -->
+
+    <Transition
+        android:id="@+id/fab_inset_loading_transition"
+        app:autoTransition="animateToEnd"
+        app:constraintSetEnd="@id/fab_inset_loading_set"
+        app:constraintSetStart="@id/fab_inset_set"
+        app:duration="@integer/loadingAnimDuration"
+        app:motionInterpolator="easeOut" />
+
+    <!-- /////////////////////////////////
+    /////////// Fab Outset Transition
+    ///////////////////////////////// -->
+
+    <Transition
+        android:id="@+id/fab_outset_transition"
+        app:autoTransition="animateToEnd"
+        app:constraintSetEnd="@id/fab_outset_set"
+        app:constraintSetStart="@id/fab_inset_loading_set"
+        app:duration="@integer/insetAnimDuration"
+        app:motionInterpolator="easeOut">
+        <KeyFrameSet>
+            <KeyAttribute
+                android:visibility="invisible"
+                app:framePosition="50"
+                app:motionTarget="@id/filter_icon" />
+            <KeyAttribute
+                android:visibility="invisible"
+                app:framePosition="50"
+                app:motionTarget="@id/bottom_bar_card_view" />
         </KeyFrameSet>
     </Transition>
 
@@ -275,6 +326,7 @@
                 app:layout_constraintTop_toTopOf="@id/bottom_bar_card_view" />
 
             <PropertySet android:alpha="0" />
+            <Transform android:rotation="0" />
         </Constraint>
     </ConstraintSet>
 
@@ -485,19 +537,20 @@
         </Constraint>
 
         <Constraint android:id="@id/filter_icon">
+
             <Layout
                 android:layout_width="@dimen/fab_size"
                 android:layout_height="@dimen/fab_size"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintBottom_toBottomOf="@id/fab"
+                app:layout_constraintEnd_toEndOf="@id/fab"
+                app:layout_constraintStart_toStartOf="@id/fab" />
 
+            <!-- repeat -->
             <CustomAttribute
                 app:attributeName="colorFilter"
                 app:customColorValue="@color/filter_icon_color" />
 
-            <PropertySet
-                android:alpha="0"
-                android:visibility="invisible" />
+            <PropertySet android:visibility="invisible" />
 
             <!-- Shouldn't exist - it's just a repeat -->
             <Transform android:elevation="34dp" />
@@ -508,18 +561,14 @@
             <Transform
                 android:scaleX="0.8"
                 android:scaleY="0.8" />
-            <PropertySet
-                android:alpha="0"
-                android:visibility="invisible" />
+            <PropertySet android:visibility="invisible" />
         </Constraint>
 
         <Constraint android:id="@id/tabs_recycler_view">
             <Transform
                 android:scaleX="0.8"
                 android:scaleY="0.8" />
-            <PropertySet
-                android:alpha="0"
-                android:visibility="invisible" />
+            <PropertySet android:visibility="invisible" />
         </Constraint>
 
         <Constraint android:id="@id/bottom_bar_card_view">
@@ -553,11 +602,11 @@
     </ConstraintSet>
 
     <!-- /////////////////////////////////
-    /////////// Close Icon Loading Set
+    /////////// Collapse Loading Set
     ///////////////////////////////// -->
 
     <ConstraintSet
-        android:id="@+id/close_icon_loading_set"
+        android:id="@+id/collapse_loading_set"
         app:deriveConstraintsFrom="@id/collapse_set">
         <Constraint android:id="@id/close_icon">
             <Transform android:rotation="270" />
@@ -570,7 +619,7 @@
 
     <ConstraintSet
         android:id="@+id/original_filtered_set"
-        app:deriveConstraintsFrom="@id/close_icon_loading_set">
+        app:deriveConstraintsFrom="@id/collapse_loading_set">
         <Constraint android:id="@id/fab">
             <Layout
                 android:layout_width="@dimen/fab_size"
@@ -584,6 +633,85 @@
         <!-- Repeat -->
         <Constraint android:id="@id/close_icon">
             <Transform android:rotation="270" />
+        </Constraint>
+    </ConstraintSet>
+
+    <!-- /////////////////////////////////
+    /////////// Fab Inset Set
+    ///////////////////////////////// -->
+
+    <ConstraintSet
+        android:id="@+id/fab_inset_set"
+        app:deriveConstraintsFrom="@id/original_filtered_set">
+        <Constraint android:id="@id/fab">
+            <Layout
+                android:layout_width="@dimen/fab_size_inset"
+                android:layout_height="@dimen/fab_size_inset"
+                android:layout_marginEnd="@dimen/fab_margin_inset"
+                android:layout_marginBottom="@dimen/fab_margin_inset"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+        </Constraint>
+
+        <!-- Repeat -->
+        <Constraint android:id="@id/close_icon">
+            <Transform android:rotation="270" />
+        </Constraint>
+    </ConstraintSet>
+
+    <!-- /////////////////////////////////
+    /////////// Fab Inset Loading Set
+    ///////////////////////////////// -->
+
+    <ConstraintSet
+        android:id="@+id/fab_inset_loading_set"
+        app:deriveConstraintsFrom="@id/fab_inset_set">
+
+        <!-- Repeat -->
+        <Constraint android:id="@id/close_icon">
+            <Transform android:rotation="540" />
+        </Constraint>
+    </ConstraintSet>
+
+    <!-- /////////////////////////////////
+    /////////// Fab Outset Set
+    ///////////////////////////////// -->
+
+    <ConstraintSet
+        android:id="@+id/fab_outset_set"
+        app:deriveConstraintsFrom="@id/fab_inset_loading_set">
+
+        <Constraint android:id="@id/fab">
+            <Layout
+                android:layout_width="@dimen/fab_size"
+                android:layout_height="@dimen/fab_size"
+                android:layout_marginEnd="@dimen/fab_margin"
+                android:layout_marginBottom="@dimen/fab_margin"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+        </Constraint>
+
+        <Constraint android:id="@id/filter_icon">
+
+            <!-- repeat -->
+            <CustomAttribute
+                app:attributeName="colorFilter"
+                app:customColorValue="@color/filter_icon_color" />
+
+            <PropertySet android:visibility="visible" />
+
+            <!-- Shouldn't exist - it's just a repeat -->
+            <Transform android:elevation="34dp" />
+        </Constraint>
+
+        <Constraint android:id="@id/close_icon">
+            <PropertySet android:visibility="invisible" />
+            <!-- Repeat -->
+            <Transform android:rotation="540" />
+        </Constraint>
+
+        <Constraint android:id="@id/bottom_bar_card_view">
+            <PropertySet android:visibility="invisible" />
         </Constraint>
     </ConstraintSet>
 </MotionScene>

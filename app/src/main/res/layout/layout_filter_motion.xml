@@ -8,7 +8,7 @@
     app:currentState="@id/original_set"
     app:layoutDescription="@xml/scene_filter"
     app:motionDebug="NO_DEBUG"
-    app:showPaths="false"
+    app:showPaths="true"
     tools:parentTag="androidx.constraintlayout.motion.widget.MotionLayout">
 
     <androidx.constraintlayout.widget.Guideline

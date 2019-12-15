@@ -15,6 +15,7 @@ import com.nikhilpanju.fabfilter.utils.setScale
 class FiltersTabsAdapter(context: Context, private val listener: (Int) -> Unit) : RecyclerView.Adapter<FiltersTabsAdapter.FiltersTabsViewHolder>() {
 
     private val payloadUpdateBadge = "UPDATE_BADGE"
+    private val toggleAnimDuration = context.resources.getInteger(R.integer.toggleAnimDuration).toLong()
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
     private var hasFilters = MutableList(FiltersLayout.numTabs) { false }
@@ -52,7 +53,7 @@ class FiltersTabsAdapter(context: Context, private val listener: (Int) -> Unit) 
         holder.badge.animate()
                 .scaleX(if (badgeShown) 1f else 0f)
                 .scaleY(if (badgeShown) 1f else 0f)
-                .setDuration(FiltersLayout.toggleDuration)
+                .setDuration(toggleAnimDuration)
                 .setInterpolator(timeInterpolator)
                 .start()
 

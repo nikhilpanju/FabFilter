@@ -72,6 +72,23 @@ class FiltersLayout @JvmOverloads constructor(context: Context, attrs: Attribute
     private val bottomBarTranslateAmount: Float by lazy { screenWidth / 4f }
     private val viewPagerTranslateAmount = 32f.dp
 
+    ///////////////////////////////////////////////////////////////////////////
+    // Durations
+    ///////////////////////////////////////////////////////////////////////////
+
+    private val pathAnimDuration: Long
+        get() = (context.resources.getInteger(R.integer.pathAnimDuration) / animationPlaybackSpeed).toLong()
+    private val revealAnimationDuration: Long
+        get() = (context.resources.getInteger(R.integer.revealAnimDuration) / animationPlaybackSpeed).toLong()
+    private val settleAnimDuration: Long
+        get() = (context.resources.getInteger(R.integer.settleAnimDuration) / animationPlaybackSpeed).toLong()
+    private val collapseAnimDuration: Long
+        get() = (context.resources.getInteger(R.integer.collapseAnimDuration) / animationPlaybackSpeed).toLong()
+    private val fabInsetDuration: Long
+        get() = (context.resources.getInteger(R.integer.insetAnimDuration) / animationPlaybackSpeed).toLong()
+    private val loadingDuration: Long
+        get() = (context.resources.getInteger(R.integer.loadingAnimDuration) / animationPlaybackSpeed).toLong()
+
     private val tabsHandler: ViewPagerTabsHandler by lazy {
         ViewPagerTabsHandler(viewPager, tabsRecyclerView, bottomBarCardView)
     }
@@ -223,7 +240,7 @@ class FiltersLayout @JvmOverloads constructor(context: Context, attrs: Attribute
         val fabCollapseAnimator = CircleCardViewAnimatorHelper(
                 cardView = fab, startSize = size, endSize = fabSize,
                 startX = (screenWidth - size) / 2, startY = fragmentHeight - (sheetHeight + size) / 2,
-                duration = filterAnimDuration, interpolator = AnticipateInterpolator(1.7f)
+                duration = collapseAnimDuration, interpolator = AnticipateInterpolator(1.7f)
         ).getAnimator()
 
         // 2) Bottom bar Inset Animator
@@ -233,7 +250,7 @@ class FiltersLayout @JvmOverloads constructor(context: Context, attrs: Attribute
         val bottomBarAnimator = CardViewAnimatorHelper(
                 cardView = bottomBarCardView, endWidth = fabSizeInset, endHeight = fabSizeInset,
                 endX = fabX2 + delta, endY = fabY2 + delta, endRadius = fabSizeInset / 2,
-                duration = filterAnimDuration * 75 / 100, interpolator = DecelerateInterpolator(1.3f)
+                duration = collapseAnimDuration * 75 / 100, interpolator = DecelerateInterpolator(1.3f)
         ).getAnimator { progress ->
 
             // As the bottom bar collapses, we move the close icon to the centre of the inset fab
@@ -249,7 +266,7 @@ class FiltersLayout @JvmOverloads constructor(context: Context, attrs: Attribute
         // the filter icon is also faded out
 
         val fadeOutAnimator = getValueAnimator(
-                true, filterAnimDuration * 30 / 100, AccelerateInterpolator()) { progress ->
+                true, collapseAnimDuration * 30 / 100, AccelerateInterpolator()) { progress ->
 
             filtersContainer.alpha = 1 - progress
 
@@ -375,19 +392,11 @@ class FiltersLayout @JvmOverloads constructor(context: Context, attrs: Attribute
      * Used in a couple of places so abstracted out into a function for safety
      */
     private fun getCloseIconAnimator() = getValueAnimator(
-            true, closeIconRotationDuration, DecelerateInterpolator()) { progress ->
+            true, loadingDuration, DecelerateInterpolator()) { progress ->
         fabCloseIcon.rotation = 270 * progress
     }
 
     companion object {
-        private val pathAnimDuration: Long get() = (300L / animationPlaybackSpeed).toLong()
-        private val revealAnimationDuration: Long get() = (300L / animationPlaybackSpeed).toLong()
-        private val settleAnimDuration: Long get() = (300L / animationPlaybackSpeed).toLong()
-        private val filterAnimDuration: Long get() = (350L / animationPlaybackSpeed).toLong()
-        private val fabInsetDuration: Long get() = (250L / animationPlaybackSpeed).toLong()
-        val closeIconRotationDuration: Long get() = (600L / animationPlaybackSpeed).toLong()
-        val toggleDuration: Long get() = 100L
-
         const val numTabs = 5
     }
 }

@@ -24,6 +24,7 @@ class FiltersPagerAdapter(context: Context, private val listener: (updatedPositi
     private val unselectedBarColor: Int by bindColor(context, R.color.filter_seek_bar_color)
     private val selectedBarColor: Int by bindColor(context, R.color.filter_seek_bar_selected_color)
 
+    private val toggleAnimDuration = context.resources.getInteger(R.integer.toggleAnimDuration).toLong()
     private val inflater: LayoutInflater = LayoutInflater.from(context)
     private var selectedMap = mutableMapOf<Int, MutableList<Int>>()
 
@@ -57,7 +58,7 @@ class FiltersPagerAdapter(context: Context, private val listener: (updatedPositi
                 else selectedList += index
 
                 val toggleAnimator = getValueAnimator(!isToggled,
-                        FiltersLayout.toggleDuration, DecelerateInterpolator()) { progress ->
+                        toggleAnimDuration, DecelerateInterpolator()) { progress ->
 
                     filterView.setColorFilter(blendColors(unselectedColor, selectedColor, progress))
                 }

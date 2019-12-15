@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="pathAnimDuration">300</integer>
+    <integer name="revealAnimDuration">300</integer>
+    <integer name="settleAnimDuration">300</integer>
+    <integer name="collapseAnimDuration">350</integer>
+
+    <integer name="insetAnimDuration">200</integer>
+    <integer name="loadingAnimDuration">600</integer>
+
+    <integer name="toggleAnimDuration">100</integer>
+</resources>

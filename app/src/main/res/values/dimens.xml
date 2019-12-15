@@ -2,25 +2,24 @@
 <resources>
     <dimen name="fab_size">72dp</dimen>
     <dimen name="fab_size_inset">56dp</dimen>
-    <dimen name="sheet_peek_height">340dp</dimen>
-
-    <!-- sheet_peek_height/2 - fabsize/2
-            = 170 - 36 = 134-->
-    <dimen name="fab_scene2_margin_bottom">134dp</dimen>
     <dimen name="fab_radius">36dp</dimen>
     <dimen name="fab_radius_inset">28dp</dimen>
+    <dimen name="fab_margin">32dp</dimen>
+    <dimen name="fab_margin_inset">40dp</dimen>
+
     <dimen name="fab_elevation">16dp</dimen>
     <dimen name="fab_elevation_2">32dp</dimen>
     <dimen name="fab_pressed_elevation">8dp</dimen>
 
-    <dimen name="tabs_height">64dp</dimen>
-
-    <dimen name="thumb_size">40dp</dimen>
-    <dimen name="tab_item_width">110dp</dimen>
-    <dimen name="bottom_bar_icon_padding">24dp</dimen>
-    <dimen name="bottom_bar_height">@dimen/fab_size</dimen>
-    <dimen name="filter_layout_padding">32dp</dimen>
     <dimen name="list_item_vertical_padding">24dp</dimen>
     <dimen name="list_item_horizontal_padding">16dp</dimen>
-    <dimen name="fab_margin">32dp</dimen>
+
+    <dimen name="filter_layout_padding">32dp</dimen>
+    <dimen name="sheet_peek_height">340dp</dimen>
+    <dimen name="tabs_height">64dp</dimen>
+    <dimen name="tab_item_width">110dp</dimen>
+    <dimen name="thumb_size">40dp</dimen>
+
+    <dimen name="bottom_bar_icon_padding">24dp</dimen>
+    <dimen name="bottom_bar_height">@dimen/fab_size</dimen>
 </resources>

@@ -52,17 +52,18 @@
             android:paddingTop="20dp"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-        <!--<com.nikhilpanju.fabfilter.filter.FiltersLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />-->
-
-        <com.nikhilpanju.fabfilter.filter.FiltersMotionLayout
+        <com.nikhilpanju.fabfilter.filter.FiltersLayout
+            android:id="@+id/filters_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:currentState="@id/original_set"
-            app:layoutDescription="@xml/scene_filter"
-            app:motionDebug="NO_DEBUG"
-            app:showPaths="false" />
+            android:visibility="gone" />
+
+        <com.nikhilpanju.fabfilter.filter.FiltersMotionLayout
+            android:id="@+id/filters_motion_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            app:layoutDescription="@xml/scene_filter" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

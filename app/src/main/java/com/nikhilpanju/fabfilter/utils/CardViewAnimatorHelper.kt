@@ -10,7 +10,9 @@ import com.nikhilpanju.fabfilter.utils.ArcAnimator.Side
 
 /**
  * Helper class to animate circular CardViews (width = height = radius * 2)
- * It's almost the same as CardViewAnimator but only animates size, x, y and elevation
+ * It maintains the centre point and radius of the circle as it animates
+ * It is only capable of animating size and elevation of the circle.
+ * For more flexibility use [CardViewAnimatorHelper]
  */
 class CircleCardViewAnimatorHelper(cardView: CardView, startSize: Float, endSize: Float,
                                    startX: Float, startY: Float,
@@ -29,7 +31,7 @@ class CircleCardViewAnimatorHelper(cardView: CardView, startSize: Float, endSize
 /**
  * Helper class to animate CardView Properties.
  * startValues are automatically detected. Make sure you instantiate this after
- * view layout or supply start values
+ * view layout or supply your own start values
  *
  * isArcPath = true will disregard width and height changes
  */
@@ -74,6 +76,9 @@ open class CardViewAnimatorHelper(
             if (endElevation >= 0) cardView.cardElevation = getProgressValue(startElevation, endElevation, progress)
         }
 
+    /**
+     * Helper method to get a ValueAnimator and set the CardView progress automatically
+     */
     fun getAnimator(forward: Boolean = true, updateListener: ((progress: Float) -> Unit)? = null): ValueAnimator {
         val a =
                 if (forward) ValueAnimator.ofFloat(0f, 1f)

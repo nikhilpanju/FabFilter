@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge>
+<merge
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="HardcodedText">
 
     <com.google.android.material.navigation.NavigationView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="start"
@@ -29,11 +30,37 @@
                 android:textColor="@color/windowBackground"
                 android:textSize="72sp" />
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="48dp"
+                android:background="@color/colorPrimaryDark"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:fontFamily="@font/annie_use_your_telescope"
+                    android:includeFontPadding="false"
+                    android:text="Use MotionLayout:"
+                    android:textColor="#FFF"
+                    android:textSize="28sp" />
+
+                <CheckBox
+                    android:id="@+id/motion_layout_checkbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:buttonTint="@color/colorAccent" />
+            </LinearLayout>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="24dp"
-                android:layout_marginTop="56dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="30dp"
                 android:fontFamily="@font/annie_use_your_telescope"
                 android:includeFontPadding="false"
                 android:text="Animation Speed:"
@@ -52,7 +79,7 @@
                     android:id="@+id/animation_speed_text"
                     android:layout_width="40dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="24dp"
+                    android:layout_marginStart="24dp"
                     android:fontFamily="@font/annie_use_your_telescope"
                     android:gravity="center"
                     android:includeFontPadding="false"
@@ -66,7 +93,7 @@
                     android:id="@+id/animation_speed_seekbar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="24dp"
+                    android:layout_marginEnd="24dp"
                     sb:bar_color="@color/filter_seek_bar_color"
                     sb:bar_highlight_color="@color/filter_seek_bar_selected_color"
                     sb:corner_radius="10"
@@ -82,8 +109,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="24dp"
-                android:layout_marginTop="48dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="30dp"
                 android:fontFamily="@font/annie_use_your_telescope"
                 android:includeFontPadding="false"
                 android:text="View code:"
@@ -94,7 +121,7 @@
                 android:id="@+id/github_code_link"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="24dp"
+                android:layout_marginStart="24dp"
                 android:layout_marginTop="-8dp"
                 android:fontFamily="@font/annie_use_your_telescope"
                 android:includeFontPadding="false"
@@ -107,8 +134,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="24dp"
-                android:layout_marginTop="48dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="30dp"
                 android:fontFamily="@font/annie_use_your_telescope"
                 android:includeFontPadding="false"
                 android:text="Follow me:"
@@ -119,7 +146,7 @@
                 android:id="@+id/github_me_link"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="24dp"
+                android:layout_marginStart="24dp"
                 android:layout_marginTop="-8dp"
                 android:fontFamily="@font/annie_use_your_telescope"
                 android:includeFontPadding="false"
