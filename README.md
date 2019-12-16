@@ -1,7 +1,9 @@
 # FabFilter
-Android app to showcase complex animations
+![Android Weekly](https://androidweekly.net/issues/issue-392/badge)
 
-![alt text](https://github.com/nikhilpanju/FabFilter/blob/master/app/files/Demo.gif "Demo")
+Android app to showcase complex UI/Animations with and without MotionLayout.
+
+[![Demo](https://github.com/nikhilpanju/FabFilter/blob/master/app/files/Demo.gif)](https://github.com/nikhilpanju/FabFilter/blob/master/app/files/Demo.gif "Demo")
 
 ## Notes
 * [Read my article on Medium](https://medium.com/@nikhilpanju22/complex-ui-animation-on-android-8f7a46f4aec4?sk=f1fab1861a655b042ff5e9c305a0e012) that breaks down these animations
