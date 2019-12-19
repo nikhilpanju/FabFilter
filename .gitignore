@@ -2,8 +2,10 @@
 .gradle
 /local.properties
 /.idea/workspace.xml
+/.idea/modules.xml
 /.idea/libraries
 .DS_Store
 /build
 /captures
 .externalNativeBuild
+/.idea/caches/build_file_checksums.ser

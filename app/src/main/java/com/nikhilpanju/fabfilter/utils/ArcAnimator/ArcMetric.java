@@ -4,13 +4,16 @@ import android.graphics.PointF;
 
 import java.util.Arrays;
 
+import androidx.annotation.NonNull;
+
+@SuppressWarnings("WeakerAccess")
 public class ArcMetric {
 
     public float mRadius;
     PointF mStartPoint = new PointF();
     PointF mEndPoint = new PointF();
     PointF mMidPoint = new PointF();
-    PointF mAxisPoint[] = new PointF[2];
+    PointF[] mAxisPoint = new PointF[2];
 
     //SEGMENTS. This Segments create virtual triangle except mZeroStartSegment
     PointF mZeroPoint = new PointF();
@@ -36,7 +39,6 @@ public class ArcMetric {
     public static ArcMetric evaluate(float startX, float startY,
                                      float endX, float endY,
                                      float degree, Side side) {
-        //TODO return ready to use object with have done computations
         ArcMetric arcMetric = new ArcMetric();
         arcMetric.mStartPoint.set(startX, startY);
         arcMetric.mEndPoint.set(endX, endY);
@@ -210,6 +212,7 @@ public class ArcMetric {
         return mStartDegree + (mEndDegree - mStartDegree) * percentage;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "ArcMetric{" +

@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:currentState="@id/original_set"
+    app:currentState="@id/set1_base"
     app:layoutDescription="@xml/scene_filter"
     app:motionDebug="NO_DEBUG"
     app:showPaths="true"
@@ -34,7 +34,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <androidx.cardview.widget.CardView
+    <com.nikhilpanju.fabfilter.filter.CircleCardView
         android:id="@+id/fab"
         android:layout_width="@dimen/fab_size"
         android:layout_height="@dimen/fab_size"
@@ -61,8 +61,9 @@
         android:layout_height="0dp"
         android:background="@color/colorPrimaryDark"
         android:elevation="33dp"
+        android:translationY="32dp"
         android:paddingBottom="@dimen/bottom_bar_height"
-        android:visibility="gone"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@id/filter_sheet_placeholder"
         app:layout_constraintEnd_toEndOf="@id/filter_sheet_placeholder"
         app:layout_constraintStart_toStartOf="@id/filter_sheet_placeholder"
@@ -77,7 +78,7 @@
         android:orientation="horizontal"
         android:paddingLeft="@dimen/filter_layout_padding"
         android:paddingRight="@dimen/filter_layout_padding"
-        android:visibility="gone"
+        android:visibility="invisible"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -90,6 +91,7 @@
         android:outlineProvider="none"
         app:cardBackgroundColor="@android:color/transparent"
         app:cardCornerRadius="0dp"
+        android:visibility="invisible"
         app:cardElevation="33dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -100,13 +102,12 @@
         android:layout_width="@dimen/fab_size"
         android:layout_height="0dp"
         android:layout_gravity="center"
-        android:alpha="0"
+        android:visibility="invisible"
         android:elevation="34dp"
         android:outlineProvider="none"
         android:scaleType="centerInside"
         android:tint="#FFF"
         app:layout_constraintBottom_toBottomOf="@id/bottom_bar_card_view"
         app:layout_constraintTop_toTopOf="@id/bottom_bar_card_view"
-        app:srcCompat="@drawable/ic_close"
-        tools:alpha="1" />
+        app:srcCompat="@drawable/ic_close" />
 </merge>

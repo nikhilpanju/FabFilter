@@ -12,6 +12,9 @@ import java.util.concurrent.CopyOnWriteArrayList
 import kotlin.coroutines.resume
 
 /**
+ * A version of MotionLayout that allows for multiple transition listeners and
+ * using coroutines instead of callbacks for the listeners.
+ *
  * https://medium.com/androiddevelopers/suspending-over-views-example-260ce3dc9100
  */
 open class MultiListenerMotionLayout @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
@@ -53,7 +56,7 @@ open class MultiListenerMotionLayout @JvmOverloads constructor(context: Context,
      * @param transitionId The transition set to await the completion of
      * @param timeout Timeout for the transition to take place. Defaults to 5 seconds.
      */
-    suspend fun awaitTransitionComplete(transitionId: Int, timeout: Long = 5000L) {
+    suspend fun awaitTransitionComplete(transitionId: Int, timeout: Long = 10000L) {
         // If we're already at the specified state, return now
         // Commented because interferes with multi-step animations
 //        if (currentState == transitionId) return
@@ -89,10 +92,6 @@ open class MultiListenerMotionLayout @JvmOverloads constructor(context: Context,
         }
     }
 
-    fun setTransition(transitionId: Int) {
-        super.setTransition(getTransition(transitionId))
-    }
-
     fun addTransitionListener(listener: TransitionListener) {
         listeners.addIfAbsent(listener)
     }
@@ -101,6 +100,10 @@ open class MultiListenerMotionLayout @JvmOverloads constructor(context: Context,
         listeners.remove(listener)
     }
 
+    @Deprecated(message = "Use addTransitionListener instead", replaceWith = ReplaceWith(
+            "addTransitionListener(listener)",
+            "com.nikhilpanju.fabfilter.utils.MultiListenerMotionLayout.addTransitionListener"
+    ))
     override fun setTransitionListener(listener: TransitionListener) {
         throw IllegalArgumentException("Use addTransitionListener instead")
     }

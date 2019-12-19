@@ -9,7 +9,7 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.core.animation.doOnEnd
 import androidx.core.animation.doOnStart
 import androidx.core.view.doOnLayout
-import androidx.core.view.doOnNextLayout
+import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -130,17 +130,14 @@ class MainListAdapter(context: Context) : RecyclerView.Adapter<MainListAdapter.L
             holder.cardContainer.doOnLayout { view ->
                 originalHeight = view.height
 
-                // show expandView and record expandedHeight in next
-                // layout pass (doOnNextLayout) and hide it immediately
+                // show expandView and record expandedHeight in next layout pass
+                // (doOnPreDraw) and hide it immediately. We use onPreDraw because
+                // it's called after layout is done. doOnNextLayout is called during
+                // layout phase which causes issues with hiding expandView.
                 holder.expandView.isVisible = true
-                view.doOnNextLayout {
+                view.doOnPreDraw {
                     expandedHeight = view.height
-
-                    // We use post{} to hide the view. Otherwise it will not
-                    // lay it out again, since this block is done on the layout pass
-                    holder.expandView.post {
-                        holder.expandView.isVisible = false
-                    }
+                    holder.expandView.isVisible = false
                 }
             }
         }
