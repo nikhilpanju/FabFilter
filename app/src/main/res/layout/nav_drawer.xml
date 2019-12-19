@@ -10,7 +10,7 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         android:visibility="visible"
-        tools:layout_gravity=""
+        tools:layout_gravity="start"
         tools:visibility="visible">
 
         <LinearLayout

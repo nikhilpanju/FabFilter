@@ -21,7 +21,8 @@ too. layout_gravity="center_horizontal" is a lot simpler.
         app:cardCornerRadius="6dp"
         app:cardElevation="0dp"
         app:cardMaxElevation="0dp"
-        tools:layout_margin="20dp">
+        tools:layout_marginLeft="20dp"
+        tools:layout_marginRight="20dp">
 
         <FrameLayout
             android:id="@+id/card_container"

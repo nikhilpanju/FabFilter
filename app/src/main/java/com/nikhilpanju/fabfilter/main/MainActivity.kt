@@ -2,7 +2,9 @@ package com.nikhilpanju.fabfilter.main
 
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
@@ -11,6 +13,7 @@ import android.widget.TextView
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.content.edit
 import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
 import androidx.drawerlayout.widget.DrawerLayout
@@ -26,9 +29,6 @@ import com.nikhilpanju.fabfilter.utils.bindView
 
 var animationPlaybackSpeed: Double = 0.8
 
-/**
- * https://dribbble.com/shots/2940944--5-Filters
- */
 class MainActivity : AppCompatActivity() {
 
     private val recyclerView: RecyclerView by bindView(R.id.recycler_view)
@@ -50,6 +50,14 @@ class MainActivity : AppCompatActivity() {
         get() = (resources.getInteger(R.integer.loadingAnimDuration) / animationPlaybackSpeed).toLong()
 
     /**
+     * Used to open nav drawer when opening app for first time (to show options)
+     */
+    private val prefs: SharedPreferences
+        get() = getSharedPreferences("FabFilter", Context.MODE_PRIVATE)
+    private var isFirstTime: Boolean
+        get() = prefs.getBoolean("isFirstTime", true)
+        set(value) = prefs.edit { putBoolean("isFirstTime", value) }
+    /**
      * Used by FiltersLayout since we don't want to expose mainListAdapter (why?)
      * (Option: Combine everything into one activity if & when necessary)
      */
@@ -58,6 +66,10 @@ class MainActivity : AppCompatActivity() {
         set(value) {
             mainListAdapter.isFiltered = value
         }
+
+    ///////////////////////////////////////////////////////////////////////////
+    // Methods
+    ///////////////////////////////////////////////////////////////////////////
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -88,6 +100,12 @@ class MainActivity : AppCompatActivity() {
         githubCodeLink.setOnClickListener { openBrowser(R.string.github_link_code) }
         githubMeLink.setOnClickListener { openBrowser(R.string.github_link_me) }
         motionLayoutCheckbox.setOnCheckedChangeListener { _, isChecked -> useFiltersMotionLayout(isChecked) }
+
+        // Open Nav Drawer when opening app for the first time
+        if (isFirstTime) {
+            drawerLayout.openDrawer(GravityCompat.START)
+            isFirstTime = false
+        }
     }
 
     /**
