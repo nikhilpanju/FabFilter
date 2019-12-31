@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.appbar.AppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/appbar"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    android:theme="@style/AppTheme.AppBarOverlay"
+    tools:showIn="@layout/activity_main">
+
+    <com.google.android.material.appbar.CollapsingToolbarLayout
+        android:id="@+id/collapsing_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:contentScrim="?attr/colorPrimary"
+        app:layout_scrollFlags="snap|scroll|exitUntilCollapsed|enterAlways">
+
+        <!-- First child of collapsing toolbar will be hidden in collapse state,
+             so we put a dummy useless view here-->
+        <View
+            android:id="@+id/useless"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <!--
+            Heights of this view will be between
+            [attr/actionBarSize] in expanded mode
+            and
+            [OnToolbarOffsetChangedListener.SCALE * ?attr/actionBarSize] in collapsed mode
+        -->
+        <FrameLayout
+            android:id="@+id/appbar_container"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_gravity="bottom">
+
+            <ImageView
+                android:id="@+id/drawer_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="16dp"
+                android:tint="@color/toolbar_title_color"
+                app:srcCompat="@drawable/ic_drawer_icon" />
+
+            <View
+                android:id="@+id/toolbar_title"
+                android:layout_width="140dp"
+                android:layout_height="14dp"
+                android:layout_gravity="center"
+                android:background="@drawable/ic_pill"
+                android:backgroundTint="@color/toolbar_title_color" />
+        </FrameLayout>
+
+
+        <!--
+            This is a useless toolbar to just make sure minimum size of Appbar
+            will not be less than collapsed size.
+            Heights of this view will change to [OnToolbarOffsetChangedListener.SCALE * ?attr/actionBarSize]
+            in first run
+        -->
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/place_holder_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:visibility="invisible"
+            app:layout_collapseMode="pin"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+    </com.google.android.material.appbar.CollapsingToolbarLayout>
+</com.google.android.material.appbar.AppBarLayout>
