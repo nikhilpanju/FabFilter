@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -29,17 +28,20 @@ class MainActivity : AppCompatActivity() {
 
     private val recyclerView: RecyclerView by bindView(R.id.recycler_view)
     private val appbar: AppBarLayout by bindView(R.id.appbar)
+    private val toolbar: View by bindView(R.id.appbar_container)
+    private val toolbarTitle: View by bindView(R.id.toolbar_title)
+    private val placeHolderToolbar: View by bindView(R.id.place_holder_toolbar)
     private val drawerIcon: View by bindView(R.id.drawer_icon)
-
     // layout/nav_drawer views
     private val drawerLayout: DrawerLayout by bindView(R.id.drawer_layout)
     private val animationSpeedSeekbar: CrystalSeekbar by bindView(R.id.animation_speed_seekbar)
+
     private val animationSpeedText: TextView by bindView(R.id.animation_speed_text)
     private val githubCodeLink: TextView by bindView(R.id.github_code_link)
     private val githubMeLink: TextView by bindView(R.id.github_me_link)
 
-
     private lateinit var mainListAdapter: MainListAdapter
+    private lateinit var onToolbarOffsetChangedListener: OnToolbarOffsetChangedListener
 
     /**
      * Used by FiltersLayout since we don't want to expose mainListAdapter (why?)
@@ -56,8 +58,13 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Appbar behavior init
-        (appbar.layoutParams as CoordinatorLayout.LayoutParams).behavior = ToolbarBehavior()
+        onToolbarOffsetChangedListener = OnToolbarOffsetChangedListener(
+                toolbar,
+                toolbarTitle,
+                drawerIcon,
+                placeHolderToolbar
+        )
+        appbar.addOnOffsetChangedListener(onToolbarOffsetChangedListener)
 
         // RecyclerView Init
         mainListAdapter = MainListAdapter(this)
@@ -84,6 +91,13 @@ class MainActivity : AppCompatActivity() {
 
     private fun openBrowser(resId: Int) {
         startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(getString(resId))))
+    }
+
+    override fun onDestroy() {
+        if (::onToolbarOffsetChangedListener.isInitialized) {
+            appbar.removeOnOffsetChangedListener(onToolbarOffsetChangedListener)
+        }
+        super.onDestroy()
     }
 
     /**
