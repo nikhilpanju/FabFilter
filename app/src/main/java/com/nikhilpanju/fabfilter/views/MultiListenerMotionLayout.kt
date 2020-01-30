@@ -1,4 +1,4 @@
-package com.nikhilpanju.fabfilter.utils
+package com.nikhilpanju.fabfilter.views
 
 import android.content.Context
 import android.util.AttributeSet
@@ -102,7 +102,7 @@ open class MultiListenerMotionLayout @JvmOverloads constructor(context: Context,
 
     @Deprecated(message = "Use addTransitionListener instead", replaceWith = ReplaceWith(
             "addTransitionListener(listener)",
-            "com.nikhilpanju.fabfilter.utils.MultiListenerMotionLayout.addTransitionListener"
+            "com.nikhilpanju.fabfilter.views.MultiListenerMotionLayout.addTransitionListener"
     ))
     override fun setTransitionListener(listener: TransitionListener) {
         throw IllegalArgumentException("Use addTransitionListener instead")

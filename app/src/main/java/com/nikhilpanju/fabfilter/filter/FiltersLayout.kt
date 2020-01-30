@@ -21,6 +21,7 @@ import com.nikhilpanju.fabfilter.R
 import com.nikhilpanju.fabfilter.main.MainActivity
 import com.nikhilpanju.fabfilter.main.animationPlaybackSpeed
 import com.nikhilpanju.fabfilter.utils.*
+import com.nikhilpanju.fabfilter.views.NoScrollRecyclerView
 
 @Suppress("USELESS_CAST")
 @SuppressLint("WrongConstant")

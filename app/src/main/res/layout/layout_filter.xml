@@ -68,7 +68,7 @@
                 tools:ignore="Suspicious0dp"
                 tools:layout_height="@dimen/tabs_height">
 
-                <com.nikhilpanju.fabfilter.filter.NoScrollRecyclerView
+                <com.nikhilpanju.fabfilter.views.NoScrollRecyclerView
                     android:id="@+id/tabs_recycler_view"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"

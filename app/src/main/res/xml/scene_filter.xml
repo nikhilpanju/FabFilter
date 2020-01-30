@@ -37,6 +37,10 @@ For ex: 1 -> 2, 2 -> 3 ... 9 -> 10.
             <CustomAttribute
                 app:attributeName="radius"
                 app:customDimension="@dimen/fab_radius" />
+
+            <CustomAttribute
+                app:attributeName="cardElevation"
+                app:customDimension="@dimen/fab_elevation" />
         </Constraint>
 
         <Constraint android:id="@id/filter_icon">
@@ -116,6 +120,10 @@ For ex: 1 -> 2, 2 -> 3 ... 9 -> 10.
                 app:layout_constraintEnd_toEndOf="@id/filter_sheet_placeholder"
                 app:layout_constraintStart_toStartOf="@id/filter_sheet_placeholder"
                 app:layout_constraintTop_toTopOf="@id/filter_sheet_placeholder" />
+
+            <CustomAttribute
+                app:attributeName="cardElevation"
+                app:customDimension="@dimen/fab_elevation_2" />
         </Constraint>
     </ConstraintSet>
 
@@ -151,10 +159,9 @@ For ex: 1 -> 2, 2 -> 3 ... 9 -> 10.
                 app:layout_constraintTop_toTopOf="@id/bottom_bar_card_view" />
         </Constraint>
 
-        <!-- Shouldn't exist - it's just a repeat -->
+        <!-- Unnecessary override - will be fixed in beta5 -->
         <Constraint android:id="@id/view_pager">
             <Transform android:translationY="32dp" />
-            <PropertySet android:visibility="invisible" />
         </Constraint>
     </ConstraintSet>
 
@@ -328,9 +335,13 @@ For ex: 1 -> 2, 2 -> 3 ... 9 -> 10.
                 android:layout_marginBottom="@dimen/fab_margin"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
+
+            <CustomAttribute
+                app:attributeName="cardElevation"
+                app:customDimension="@dimen/fab_elevation" />
         </Constraint>
 
-        <!-- Repeat -->
+        <!-- Unnecessary override - will be fixed in beta5 -->
         <Constraint android:id="@id/close_icon">
             <Transform android:rotation="270" />
         </Constraint>
@@ -353,7 +364,7 @@ For ex: 1 -> 2, 2 -> 3 ... 9 -> 10.
                 app:layout_constraintEnd_toEndOf="parent" />
         </Constraint>
 
-        <!-- Repeat -->
+        <!-- Unnecessary override - will be fixed in beta5 -->
         <Constraint android:id="@id/close_icon">
             <Transform android:rotation="270" />
         </Constraint>
@@ -367,7 +378,7 @@ For ex: 1 -> 2, 2 -> 3 ... 9 -> 10.
         android:id="@+id/set9_unfilterLoading"
         app:deriveConstraintsFrom="@id/set8_unfilterInset">
 
-        <!-- Repeat -->
+        <!-- Unnecessary override - will be fixed in beta5 -->
         <Constraint android:id="@id/close_icon">
             <Transform android:rotation="540" />
         </Constraint>
@@ -397,7 +408,7 @@ For ex: 1 -> 2, 2 -> 3 ... 9 -> 10.
 
         <Constraint android:id="@id/close_icon">
             <PropertySet android:visibility="invisible" />
-            <!-- Repeat -->
+            <!-- Unnecessary override - will be fixed in beta5 -->
             <Transform android:rotation="540" />
         </Constraint>
 
@@ -547,7 +558,8 @@ For ex: 1 -> 2, 2 -> 3 ... 9 -> 10.
         </KeyFrameSet>
 
         <!-- framePosition=65: the bottom bar reaches it's final state.
-         Bottom bar and close icon close in and inset into the fab. -->
+         Bottom bar and close icon close in and inset into the fab.
+         We simulate final state here by setting the 'percent' values to '1' -->
         <KeyFrameSet>
             <KeyPosition
                 app:framePosition="65"

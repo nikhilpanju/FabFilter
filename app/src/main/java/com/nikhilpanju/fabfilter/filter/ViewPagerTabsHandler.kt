@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.nikhilpanju.fabfilter.R
 import com.nikhilpanju.fabfilter.utils.*
+import com.nikhilpanju.fabfilter.views.NoScrollHorizontalLayoutManager
+import com.nikhilpanju.fabfilter.views.NoScrollRecyclerView
 
 /**
  * [FiltersLayout] and [FiltersMotionLayout] both use the same ViewPager2 and tab setup, hence
@@ -68,7 +70,7 @@ class ViewPagerTabsHandler(
                 // onScrollListener for the RecyclerView but that requires extra math. positionOffset
                 // is all we need so let's use that to apply transformation to the tabs
 
-                val currentTabView = tabsRecyclerView.layoutManager?.findViewByPosition(position)!!
+                val currentTabView = tabsRecyclerView.layoutManager?.findViewByPosition(position) ?: return
                 val nextTabView = tabsRecyclerView.layoutManager?.findViewByPosition(position + 1)
 
                 val defaultScale: Float = FiltersTabsAdapter.defaultScale

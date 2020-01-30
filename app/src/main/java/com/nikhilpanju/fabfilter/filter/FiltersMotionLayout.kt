@@ -11,8 +11,9 @@ import com.nikhilpanju.fabfilter.R
 import com.nikhilpanju.fabfilter.main.MainActivity
 import com.nikhilpanju.fabfilter.main.MainListAdapter
 import com.nikhilpanju.fabfilter.main.animationPlaybackSpeed
-import com.nikhilpanju.fabfilter.utils.MultiListenerMotionLayout
 import com.nikhilpanju.fabfilter.utils.bindView
+import com.nikhilpanju.fabfilter.views.MultiListenerMotionLayout
+import com.nikhilpanju.fabfilter.views.NoScrollRecyclerView
 import kotlinx.coroutines.launch
 
 /**
@@ -86,7 +87,6 @@ class FiltersMotionLayout @JvmOverloads constructor(context: Context, attrs: Att
     private fun closeSheet(): Unit = performAnimation {
 
         // 1) set4_settle -> set3_reveal
-//        setTransition(R.id.set3_reveal, R.id.set4_settle)
         transitionToStart()
         awaitTransitionComplete(R.id.set3_reveal)
 

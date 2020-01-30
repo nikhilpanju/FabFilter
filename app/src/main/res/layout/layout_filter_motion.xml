@@ -34,7 +34,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <com.nikhilpanju.fabfilter.filter.CircleCardView
+    <com.nikhilpanju.fabfilter.views.CircleCardView
         android:id="@+id/fab"
         android:layout_width="@dimen/fab_size"
         android:layout_height="@dimen/fab_size"
@@ -61,15 +61,15 @@
         android:layout_height="0dp"
         android:background="@color/colorPrimaryDark"
         android:elevation="33dp"
-        android:translationY="32dp"
         android:paddingBottom="@dimen/bottom_bar_height"
+        android:translationY="32dp"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@id/filter_sheet_placeholder"
         app:layout_constraintEnd_toEndOf="@id/filter_sheet_placeholder"
         app:layout_constraintStart_toStartOf="@id/filter_sheet_placeholder"
         app:layout_constraintTop_toTopOf="@id/filter_sheet_placeholder" />
 
-    <com.nikhilpanju.fabfilter.filter.NoScrollRecyclerView
+    <com.nikhilpanju.fabfilter.views.NoScrollRecyclerView
         android:id="@+id/tabs_recycler_view"
         android:layout_width="0dp"
         android:layout_height="@dimen/tabs_height"
@@ -89,9 +89,9 @@
         android:layout_width="0dp"
         android:layout_height="@dimen/bottom_bar_height"
         android:outlineProvider="none"
+        android:visibility="invisible"
         app:cardBackgroundColor="@android:color/transparent"
         app:cardCornerRadius="0dp"
-        android:visibility="invisible"
         app:cardElevation="33dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -102,11 +102,11 @@
         android:layout_width="@dimen/fab_size"
         android:layout_height="0dp"
         android:layout_gravity="center"
-        android:visibility="invisible"
         android:elevation="34dp"
         android:outlineProvider="none"
         android:scaleType="centerInside"
         android:tint="#FFF"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@id/bottom_bar_card_view"
         app:layout_constraintTop_toTopOf="@id/bottom_bar_card_view"
         app:srcCompat="@drawable/ic_close" />

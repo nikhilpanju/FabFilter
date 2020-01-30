@@ -1,4 +1,4 @@
-package com.nikhilpanju.fabfilter.filter
+package com.nikhilpanju.fabfilter.views
 
 import android.content.Context
 import android.util.AttributeSet

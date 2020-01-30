@@ -12,6 +12,7 @@ import com.nikhilpanju.fabfilter.utils.bindColor
 import com.nikhilpanju.fabfilter.utils.bindOptionalViews
 import com.nikhilpanju.fabfilter.utils.blendColors
 import com.nikhilpanju.fabfilter.utils.getValueAnimator
+import com.nikhilpanju.fabfilter.views.FilterSeekbar
 
 /**
  * ViewPager adapter to display all the filters
