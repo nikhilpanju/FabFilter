@@ -29,8 +29,6 @@ class MainListAdapter(context: Context) : RecyclerView.Adapter<MainListAdapter.L
     private val listItemVerticalPadding: Float by bindDimen(context, R.dimen.list_item_vertical_padding)
     private val originalWidth = context.screenWidth - 48.dp
     private val expandedWidth = context.screenWidth - 24.dp
-    private var originalHeight = -1 // will be calculated dynamically
-    private var expandedHeight = -1 // will be calculated dynamically
 
     // filteredItems is a static field to simulate filtering of random items
     private val filteredItems = intArrayOf(2, 5, 6, 8, 12)
@@ -115,20 +113,16 @@ class MainListAdapter(context: Context) : RecyclerView.Adapter<MainListAdapter.L
         } else {
 
             // show expandView only if we have expandedHeight (onViewAttached)
-            holder.expandView.isVisible = expand && expandedHeight >= 0
+            holder.expandView.isVisible = expand && holder.expandedHeight >= 0
             setExpandProgress(holder, if (expand) 1f else 0f)
         }
     }
 
     override fun onViewAttachedToWindow(holder: ListViewHolder) {
         super.onViewAttachedToWindow(holder)
-
-        // get originalHeight & expandedHeight if not gotten before
-        if (expandedHeight < 0) {
-            expandedHeight = 0 // so that this block is only called once
-
+            //store the original and expanded height with in their respected holder
             holder.cardContainer.doOnLayout { view ->
-                originalHeight = view.height
+                holder.originalHeight = view.height
 
                 // show expandView and record expandedHeight in next layout pass
                 // (doOnPreDraw) and hide it immediately. We use onPreDraw because
@@ -136,17 +130,16 @@ class MainListAdapter(context: Context) : RecyclerView.Adapter<MainListAdapter.L
                 // layout phase which causes issues with hiding expandView.
                 holder.expandView.isVisible = true
                 view.doOnPreDraw {
-                    expandedHeight = view.height
+                    holder.expandedHeight = view.height
                     holder.expandView.isVisible = false
-                }
             }
         }
     }
 
     private fun setExpandProgress(holder: ListViewHolder, progress: Float) {
-        if (expandedHeight > 0 && originalHeight > 0) {
+        if (holder.expandedHeight > 0 && holder.originalHeight > 0) {
             holder.cardContainer.layoutParams.height =
-                    (originalHeight + (expandedHeight - originalHeight) * progress).toInt()
+                    (holder.originalHeight + (holder.expandedHeight - holder.originalHeight) * progress).toInt()
         }
         holder.cardContainer.layoutParams.width =
                 (originalWidth + (expandedWidth - originalWidth) * progress).toInt()
@@ -194,7 +187,7 @@ class MainListAdapter(context: Context) : RecyclerView.Adapter<MainListAdapter.L
         val itemExpanded = position >= 0 && adapterList[position] == expandedModel
         holder.cardContainer.layoutParams.apply {
             width = ((if (itemExpanded) expandedWidth else originalWidth) * (1 - 0.1f * progress)).toInt()
-            height = ((if (itemExpanded) expandedHeight else originalHeight) * (1 - 0.1f * progress)).toInt()
+            height = ((if (itemExpanded) holder.expandedHeight else holder.originalHeight) * (1 - 0.1f * progress)).toInt()
 //            log("width=$width, height=$height [${"%.2f".format(progress)}]")
         }
         holder.cardContainer.requestLayout()
@@ -222,6 +215,9 @@ class MainListAdapter(context: Context) : RecyclerView.Adapter<MainListAdapter.L
     ///////////////////////////////////////////////////////////////////////////
 
     class ListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        var originalHeight = -1 // will be calculated dynamically
+        var expandedHeight = -1 // will be calculated dynamically
+
         val expandView: View by bindView(R.id.expand_view)
         val chevron: View by bindView(R.id.chevron)
         val cardContainer: View by bindView(R.id.card_container)
