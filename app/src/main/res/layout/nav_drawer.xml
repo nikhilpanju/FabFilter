@@ -16,7 +16,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/colorPrimaryDark"
+            android:background="@drawable/nav_drawer_bg"
             android:orientation="vertical">
 
             <TextView
@@ -24,11 +24,15 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="56dp"
-                android:fontFamily="@font/annie_use_your_telescope"
+                android:fontFamily="@font/sfsemibolditalic"
                 android:includeFontPadding="false"
+                android:shadowColor="#000000"
+                android:shadowDx="0"
+                android:shadowDy="12"
+                android:shadowRadius="1"
                 android:text="@string/app_name"
-                android:textColor="@color/windowBackground"
-                android:textSize="72sp" />
+                android:textColor="@color/filter_icon_active_color"
+                android:textSize="65sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -42,7 +46,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
-                    android:fontFamily="@font/annie_use_your_telescope"
+                    android:fontFamily="@font/sfregular"
                     android:includeFontPadding="false"
                     android:text="Use MotionLayout:"
                     android:textColor="#FFF"
@@ -61,8 +65,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="30dp"
-                android:fontFamily="@font/annie_use_your_telescope"
+                android:fontFamily="@font/sfregular"
                 android:includeFontPadding="false"
+                android:shadowColor="#000000"
+                android:shadowDy="3"
+                android:shadowRadius="1"
                 android:text="Animation Speed:"
                 android:textColor="#FFF"
                 android:textSize="28sp" />
@@ -80,7 +87,7 @@
                     android:layout_width="40dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
-                    android:fontFamily="@font/annie_use_your_telescope"
+                    android:fontFamily="@font/sfbold"
                     android:gravity="center"
                     android:includeFontPadding="false"
                     android:text="0.1x"
@@ -111,8 +118,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="30dp"
-                android:fontFamily="@font/annie_use_your_telescope"
+                android:fontFamily="@font/sfregular"
                 android:includeFontPadding="false"
+                android:shadowColor="#000000"
+                android:shadowDy="3"
+                android:shadowRadius="1"
                 android:text="View code:"
                 android:textColor="@android:color/white"
                 android:textSize="28sp" />
@@ -123,12 +133,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="-8dp"
-                android:fontFamily="@font/annie_use_your_telescope"
+                android:fontFamily="@font/sfregular"
                 android:includeFontPadding="false"
                 android:paddingTop="8dp"
                 android:paddingBottom="8dp"
                 android:text="Github"
-                android:textColor="@color/colorAccent"
+                android:textColor="#000000"
                 android:textSize="24sp" />
 
             <TextView
@@ -136,8 +146,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="30dp"
-                android:fontFamily="@font/annie_use_your_telescope"
+                android:fontFamily="@font/sfregular"
                 android:includeFontPadding="false"
+                android:shadowColor="#000000"
+                android:shadowDy="3"
+                android:shadowRadius="1"
                 android:text="Follow me:"
                 android:textColor="@android:color/white"
                 android:textSize="28sp" />
@@ -148,12 +161,15 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="-8dp"
-                android:fontFamily="@font/annie_use_your_telescope"
+                android:fontFamily="@font/sfregular"
                 android:includeFontPadding="false"
                 android:paddingTop="8dp"
                 android:paddingBottom="8dp"
+                android:shadowColor="#FFFFFF"
+                android:shadowDy="0"
+                android:shadowRadius="1"
                 android:text="Nikhil Panju (Github)"
-                android:textColor="@color/colorAccent"
+                android:textColor="#000000"
                 android:textSize="24sp" />
         </LinearLayout>
     </com.google.android.material.navigation.NavigationView>
